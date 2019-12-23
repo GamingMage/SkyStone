@@ -89,31 +89,43 @@ public class BlueDepots extends OpMode{
                 break;
             case 10:
                 //Move forward and grab skystone
-                
+                robot.linearDrive(.5,10);
+                placing.setClawWrist(ServoPosition.UP);
+                placing.setClawTurn(ServoPosition.TURN_OUT);
+                placing.setClawWrist(ServoPosition.DOWN);
+                placing.setClawGrip(ServoPosition.DOWN);
                 stateMachineFlow++;
                 break;
             case 11:
                 //Back up
+                robot.linearDrive(.5,10);
                 stateMachineFlow++;
                 break;
             case 12:
                 //Move right
+                robot.sideDrive(.5,70);
                 stateMachineFlow++;
                 break;
             case 13:
                 //Move forward
+                robot.linearDrive(.5,10);
                 stateMachineFlow++;
                 break;
             case 14:
                 //Place skystone on the foundation
+                placing.setClawGrip(ServoPosition.UP);
                 stateMachineFlow++;
                 break;
             case 15:
                 //Grab foundation and move backwards
+                robot.linearDrive(.5,-1);
+                placing.setClawGrip(ServoPosition.DOWN);
+                robot.linearDrive(.5,15);
                 stateMachineFlow++;
                 break;
             case 16:
                 //Move left to park underneath red alliance bridge
+                robot.sideDrive(-.5,40);
                 stateMachineFlow++;
                 break;
         }
