@@ -41,18 +41,23 @@ public class RedBuild extends OpMode{
                 break;
             case 1:
                 //Move diagonally (forward-right) 40 inches and grab the foundation
+
+                placing.setClawGrip(ServoPosition.DOWN);
                 stateMachineFlow++;
                 break;
             case 2:
                 //Back up 20 inches to move the foundation into the building site
+                robot.linearDrive(.5,-20);
                 stateMachineFlow++;
                 break;
             case 3:
                 //Move left 70 inches
+                robot.sideDrive(.5,-70);
                 stateMachineFlow++;
                 break;
             case 4:
                 //Move forward 20 inches
+                robot.linearDrive(.5,20);
                 stateMachineFlow++;
                 break;
             case 5:
@@ -61,22 +66,31 @@ public class RedBuild extends OpMode{
                 break;
             case 6:
                 //Move forward 20 inches and grab the skystone
+                robot.linearDrive(.5,20);
+                placing.setClawWrist(ServoPosition.UP);
+                placing.setClawTurn(ServoPosition.TURN_OUT);
+                placing.setClawWrist(ServoPosition.DOWN);
+                placing.setClawGrip(ServoPosition.DOWN);
                 stateMachineFlow++;
                 break;
             case 7:
                 //Back up 20 inches
+                robot.linearDrive(.5,-20);
                 stateMachineFlow++;
                 break;
             case 8:
                 //Move right 85 inches
+                robot.sideDrive(.5,85);
                 stateMachineFlow++;
                 break;
             case 9:
                 //Place the skystone on the foundation
+                placing.setClawGrip(ServoPosition.UP);
                 stateMachineFlow++;
                 break;
             case 10:
                 //Move left 70 inches
+                robot.sideDrive(-.5,70);
                 stateMachineFlow++;
                 break;
             case 11:
@@ -85,6 +99,11 @@ public class RedBuild extends OpMode{
                 break;
             case 12:
                 //Move forward 20 inches and grab the skystone
+                robot.linearDrive(.5,20);
+                placing.setClawWrist(ServoPosition.UP);
+                placing.setClawTurn(ServoPosition.TURN_OUT);
+                placing.setClawWrist(ServoPosition.DOWN);
+                placing.setClawGrip(ServoPosition.DOWN);
                 stateMachineFlow++;
                 break;
             case 13:
