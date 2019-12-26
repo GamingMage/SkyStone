@@ -41,7 +41,7 @@ public class RedBuild extends OpMode{
                 break;
             case 1:
                 //Move diagonally (forward-right) 40 inches and grab the foundation
-
+                robot.diagonalDrive(.5,40,DiagonalDirection.RIGHT);
                 placing.setClawGrip(ServoPosition.DOWN);
                 stateMachineFlow++;
                 break;
@@ -108,18 +108,25 @@ public class RedBuild extends OpMode{
                 break;
             case 13:
                 //Back up 20 inches
+                robot.linearDrive(.5,-20);
                 stateMachineFlow++;
                 break;
             case 14:
                 //Move right 85 inches
+                robot.sideDrive(.5,85);
                 stateMachineFlow++;
                 break;
             case 15:
                 //Place the skystone on the foundation
+                placing.setClawWrist(ServoPosition.UP);
+                placing.setClawTurn(ServoPosition.TURN_OUT);
+                placing.setClawWrist(ServoPosition.DOWN);
+                placing.setClawGrip(ServoPosition.DOWN);
                 stateMachineFlow++;
                 break;
             case 16:
                 //Move left 40 inches to park under red alliance bridge
+                robot.sideDrive(-.5,40);
                 stateMachineFlow++;
                 break;
         }
