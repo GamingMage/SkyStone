@@ -231,6 +231,7 @@ public class SkystoneCam {
         for (VuforiaTrackable trackable : allTrackables) {
             ((VuforiaTrackableDefaultListener) trackable.getListener()).setPhoneInformation(robotFromCamera, parameters.cameraDirection);
         }
+        targetsSkyStone.activate();
     }
     public boolean isVisible(){
         targetVisible = false;
@@ -251,6 +252,60 @@ public class SkystoneCam {
             return true;
         }else{
             return false;
+        }
+    }
+    public float getXPosition() {
+        if (isVisible()){
+            VectorF translation = lastLocation.getTranslation();
+            return translation.get(0) / mmPerInch;
+        } else{
+            //1000 is an impossible value, so it will serve as a null
+            return 1000f;
+        }
+    }
+    public float getYPosition() {
+        if (isVisible()){
+            VectorF translation = lastLocation.getTranslation();
+            return translation.get(1) / mmPerInch;
+        } else{
+            //1000 is an impossible value, so it will serve as a null
+            return 1000f;
+        }
+    }
+    public float getZPosition() {
+        if (isVisible()){
+            VectorF translation = lastLocation.getTranslation();
+            return translation.get(2) / mmPerInch;
+        } else{
+            //1000 is an impossible value, so it will serve as a null
+            return 1000f;
+        }
+    }
+    public float getRoll() {
+        if (isVisible()){
+            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+            return rotation.firstAngle;
+        } else{
+            //1000 is an impossible value, so it will serve as a null
+            return 1000f;
+        }
+    }
+    public float getPitch() {
+        if (isVisible()){
+            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+            return rotation.secondAngle;
+        } else{
+            //1000 is an impossible value, so it will serve as a null
+            return 1000f;
+        }
+    }
+    public float getHeading() {
+        if (isVisible()){
+            Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+            return rotation.thirdAngle;
+        } else{
+            //1000 is an impossible value, so it will serve as a null
+            return 1000f;
         }
     }
 }
