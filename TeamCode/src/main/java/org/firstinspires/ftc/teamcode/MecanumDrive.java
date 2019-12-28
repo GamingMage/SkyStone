@@ -15,9 +15,9 @@ public class MecanumDrive {
     //Methods will include gyro aided turn, speed control (TeleOP), Odometry for autonomous(?)
 
     /* Public OpMode members. */
-    public DcMotor leftBack = null;
-    public DcMotor rightBack = null;
-    public DcMotor leftFront = null;
+    public DcMotor leftBack   = null;
+    public DcMotor rightBack  = null;
+    public DcMotor leftFront  = null;
     public DcMotor rightFront = null;
 
     /* local OpMode members. */
@@ -25,8 +25,8 @@ public class MecanumDrive {
 
     private ElapsedTime period = new ElapsedTime();
 
-    static final double COUNTS_PER_MOTOR_REV = 537.6;    // Orbital 20 Motor Encoder
-    static final double DRIVE_GEAR_REDUCTION = 1.0;     // This is < 1.0 if geared UP
+    static final double COUNTS_PER_MOTOR_REV  = 537.6;    // Orbital 20 Motor Encoder
+    static final double DRIVE_GEAR_REDUCTION  = 1.0;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
@@ -77,10 +77,10 @@ public class MecanumDrive {
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
-        parameters.mode = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled = false;
+        parameters.mode                = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled      = false;
         parameters.calibrationDataFile = "RoboBaconIMUCalibration.json";
 
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
@@ -158,8 +158,7 @@ public class MecanumDrive {
         leftFront.setPower(Math.abs(speed));
         rightFront.setPower(Math.abs(speed));
 
-        while (leftBack.isBusy() && rightBack.isBusy() && leftFront.isBusy() && rightFront.isBusy())
-            ;
+        while (leftBack.isBusy() && rightBack.isBusy() && leftFront.isBusy() && rightFront.isBusy()) ;
 
         // Stop all motion;
         leftBack.setPower(0);
@@ -298,19 +297,11 @@ public class MecanumDrive {
 
     public void sideDrive(double speed, double distance) {
         //positive speed moves right and negative moves left
-        double runtime = period.time();
-
-        rightBack.setPower(speed);
-        leftFront.setPower(speed);
-        rightFront.setPower(speed);
-        leftBack.setPower(speed);
-
-        while (.6 > period.time() - runtime) ;
-
-        rightBack.setPower(0);
-        leftFront.setPower(0);
-        rightFront.setPower(0);
-        leftBack.setPower(0);
+        //negative distance = left(?)
+        encoderDriveLB(speed,-distance);
+        encoderDriveLF(speed,distance);
+        encoderDriveRB(speed,distance);
+        encoderDriveRF(speed,-distance);
     }
 
     public void diagonalDrive(double speed, double distance, DiagonalDirection direction) {

@@ -22,6 +22,7 @@ public class BlueBuild extends OpMode{
     @Override
     public void init() {
         msStuckDetectInit = 11500;
+        msStuckDetectLoop = 10000;
 
         robot.init(hardwareMap);
         intake.init(hardwareMap);

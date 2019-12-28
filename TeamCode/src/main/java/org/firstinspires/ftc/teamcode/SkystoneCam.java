@@ -302,7 +302,7 @@ public class SkystoneCam {
     public float getHeading() {
         if (isVisible()){
             Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
-            return rotation.thirdAngle;
+            return -rotation.thirdAngle;
         } else{
             //1000 is an impossible value, so it will serve as a null
             return 1000f;

@@ -24,8 +24,9 @@ public class MecanumControl extends OpMode
     public void init() {
         robot.init(hardwareMap);
         place.init(hardwareMap);
+        intake.init(hardwareMap);
 
-        msStuckDetectInit = 8000;
+        msStuckDetectLoop = 8000;
 
         telemetry.addData("Hello","It's time");
         telemetry.addData("Loop_Timeout",msStuckDetectLoop);
@@ -36,6 +37,10 @@ public class MecanumControl extends OpMode
         telemetry.addData("RSx",gamepad1.right_stick_x);
         telemetry.addData("LSy",gamepad1.left_stick_y);
         telemetry.addData("LSx",gamepad1.left_stick_x);
+        telemetry.addData("Position","{X,Y,Z} = %.1f, %.1f, %.1f",
+                cam.getXPosition(),cam.getYPosition(),cam.getZPosition());
+        telemetry.addData("Rotation","{Roll, Pitch, Heading} = %.0f, %.0f, %.0f",
+                cam.getRoll(),cam.getPitch(),cam.getHeading());
         telemetry.update();
 
         //Set everything to zero when neither stick is in use
@@ -120,15 +125,16 @@ public class MecanumControl extends OpMode
 
         //Intake Control
         if (gamepad1.right_trigger > 0){
-            intake.Intake(IntakeDirection.IN);
-        }else intake.Intake(IntakeDirection.OFF);
+            intake.intakeControl(IntakeDirection.IN);
+        }else intake.intakeControl(IntakeDirection.OFF);
         if (gamepad1.left_trigger > 0){
-            intake.Intake(IntakeDirection.OUT);
-        }else intake.Intake(IntakeDirection.OFF);
+            intake.intakeControl(IntakeDirection.OUT);
+        }else intake.intakeControl(IntakeDirection.OFF);
 
         //Turning the camera perpendicular to a detected object
-        if (gamepad1.b){
-            
+        if (gamepad1.b && cam.getHeading() != 1000f){
+            int angle = Math.round(cam.getHeading());
+            robot.gStatTurn(.5, angle);
         }
     }
 }

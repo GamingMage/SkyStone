@@ -30,13 +30,13 @@ public class Intake {
     }
 
     //Power directions subject to change depending on how motors move when giving positive or negative powers
-    public void Intake(IntakeDirection direction){
+    public void intakeControl(IntakeDirection direction){
         if (direction == IntakeDirection.IN){
-            leftIntake.setPower(.5);
-            rightIntake.setPower(-.5);
+            leftIntake.setPower(-.7);
+            rightIntake.setPower(-.7);
         }if (direction == IntakeDirection.OUT){
-            leftIntake.setPower(-.5);
-            rightIntake.setPower(.5);
+            leftIntake.setPower(.7);
+            rightIntake.setPower(.7);
         }if (direction == IntakeDirection.OFF){
             leftIntake.setPower(0);
             rightIntake.setPower(0);
