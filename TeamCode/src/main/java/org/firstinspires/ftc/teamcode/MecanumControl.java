@@ -10,8 +10,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class MecanumControl extends OpMode
 {
 
-    MecanumDrive robot = new MecanumDrive();
-    Placing      place = new Placing();
+    MecanumDrive robot  = new MecanumDrive();
+    Placing      place  = new Placing();
+    Intake       intake = new Intake();
+    SkystoneCam  cam    = new SkystoneCam();
 
     //Speed variables to allow for speed dilation
     float rXSpeed;
@@ -23,7 +25,7 @@ public class MecanumControl extends OpMode
         robot.init(hardwareMap);
         place.init(hardwareMap);
 
-        msStuckDetectLoop = 8000;
+        msStuckDetectInit = 8000;
 
         telemetry.addData("Hello","It's time");
         telemetry.addData("Loop_Timeout",msStuckDetectLoop);
@@ -114,6 +116,19 @@ public class MecanumControl extends OpMode
             place.setClawGrip(ServoPosition.DOWN);
         }if (gamepad1.dpad_up){
             place.setClawGrip(ServoPosition.UP);
+        }
+
+        //Intake Control
+        if (gamepad1.right_trigger > 0){
+            intake.Intake(IntakeDirection.IN);
+        }else intake.Intake(IntakeDirection.OFF);
+        if (gamepad1.left_trigger > 0){
+            intake.Intake(IntakeDirection.OUT);
+        }else intake.Intake(IntakeDirection.OFF);
+
+        //Turning the camera perpendicular to a detected object
+        if (gamepad1.b){
+            
         }
     }
 }

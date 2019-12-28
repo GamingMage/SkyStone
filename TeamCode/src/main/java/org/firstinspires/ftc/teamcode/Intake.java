@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class Intake {
 
@@ -10,8 +12,8 @@ public class Intake {
     //sensors include a touch sensor to stop system when sensor is hit by block (grab block when hit)
     //Methods will include an in/off/reverse
 
-    public DcMotor leftIntake  = null;
-    public DcMotor rightIntake = null;
+    public CRServo leftIntake  = null;
+    public CRServo rightIntake = null;
 
     HardwareMap hwMap          = null;
 
@@ -23,20 +25,8 @@ public class Intake {
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftIntake  = hwMap.get(DcMotor.class, "left_intake");
-        rightIntake = hwMap.get(DcMotor.class,"right_intake");
-        //Directions subject to change when motor facing is identified
-        leftIntake.setDirection(DcMotor.Direction.REVERSE);
-        rightIntake.setDirection(DcMotor.Direction.REVERSE);
-
-        // Set all motors to zero power
-        leftIntake.setPower(0);
-        rightIntake.setPower(0);
-
-        // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftIntake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightIntake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftIntake  = hwMap.get(CRServo.class, "left_intake");
+        rightIntake = hwMap.get(CRServo.class,"right_intake");
     }
 
     //Power directions subject to change depending on how motors move when giving positive or negative powers
