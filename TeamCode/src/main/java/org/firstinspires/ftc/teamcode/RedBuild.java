@@ -10,23 +10,33 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class RedBuild extends OpMode{
 
     private int stateMachineFlow;
-    MecanumDrive robot      = new MecanumDrive();
-    Intake intake  = new Intake();
-    Lift lift = new Lift();
-    Placing placing = new Placing();
+    MecanumDrive robot = new MecanumDrive();
+    Intake intake      = new Intake();
+    Lift lift          = new Lift();
+    Placing placing    = new Placing();
+    SkystoneCam cam    = new SkystoneCam();
 
     double time;
-    int initView =0;
+    double distanceToTarget;
+    static final int NINETY_DEGREES = 90;
+    int angleToTarget = 0;
+    int initView = 0;
     private ElapsedTime     runtime = new ElapsedTime();
-
+    /***********************************
+     *
+     * This program starts with the robot's intake facing the wall
+     *
+     ***********************************/
     @Override
     public void init() {
         msStuckDetectInit = 11500;
+        msStuckDetectLoop = 10000;
 
         robot.init(hardwareMap);
         intake.init(hardwareMap);
         lift.init(hardwareMap);
         placing.init(hardwareMap);
+        cam.init(hardwareMap);
 
         stateMachineFlow = 0;
     }
@@ -40,93 +50,40 @@ public class RedBuild extends OpMode{
                 stateMachineFlow++;
                 break;
             case 1:
-                //Move diagonally (forward-right) 40 inches and grab the foundation
-                robot.diagonalDrive(.5,40,DiagonalDirection.RIGHT);
+                //Move diagonally (back-left) and grab the foundation
+                robot.diagonalDrive(.5, -20, DiagonalDirection.LEFT);
                 placing.setClawGrip(ServoPosition.DOWN);
                 stateMachineFlow++;
                 break;
             case 2:
-                //Back up 20 inches to move the foundation into the building site
-                robot.linearDrive(.5,-20);
+                //Back up to move the foundation into the building site
+                robot.linearDrive(.5, 15);
                 stateMachineFlow++;
                 break;
             case 3:
-                //Move left 70 inches
-                robot.sideDrive(.5,-70);
+                //Move right out from plate
+                robot.sideDrive(.5, 10);
                 stateMachineFlow++;
                 break;
             case 4:
-                //Move forward 20 inches
-                robot.linearDrive(.5,20);
+                //move to other side of the plate
+                robot.linearDrive(.5,-40);
                 stateMachineFlow++;
                 break;
             case 5:
-                //Move left using viewforia, stop when a skystone is detected
+                //move to the side of the plate
+                robot.sideDrive(.5,-10);
                 stateMachineFlow++;
                 break;
             case 6:
-                //Move forward 20 inches and grab the skystone
-                robot.linearDrive(.5,20);
-                placing.setClawWrist(ServoPosition.UP);
-                placing.setClawTurn(ServoPosition.TURN_OUT);
-                placing.setClawWrist(ServoPosition.DOWN);
-                placing.setClawGrip(ServoPosition.DOWN);
+                //push the plate into the zone
+                robot.linearDrive(.5,10);
                 stateMachineFlow++;
                 break;
             case 7:
-                //Back up 20 inches
-                robot.linearDrive(.5,-20);
-                stateMachineFlow++;
-                break;
-            case 8:
-                //Move right 85 inches
-                robot.sideDrive(.5,85);
-                stateMachineFlow++;
-                break;
-            case 9:
-                //Place the skystone on the foundation
-                placing.setClawGrip(ServoPosition.UP);
-                stateMachineFlow++;
-                break;
-            case 10:
-                //Move left 70 inches
-                robot.sideDrive(-.5,70);
-                stateMachineFlow++;
-                break;
-            case 11:
-                //Move left using viewforia, stop when a skystone is detected
-                stateMachineFlow++;
-                break;
-            case 12:
-                //Move forward 20 inches and grab the skystone
-                robot.linearDrive(.5,20);
-                placing.setClawWrist(ServoPosition.UP);
-                placing.setClawTurn(ServoPosition.TURN_OUT);
-                placing.setClawWrist(ServoPosition.DOWN);
-                placing.setClawGrip(ServoPosition.DOWN);
-                stateMachineFlow++;
-                break;
-            case 13:
-                //Back up 20 inches
-                robot.linearDrive(.5,-20);
-                stateMachineFlow++;
-                break;
-            case 14:
-                //Move right 85 inches
-                robot.sideDrive(.5,85);
-                stateMachineFlow++;
-                break;
-            case 15:
-                //Place the skystone on the foundation
-                placing.setClawWrist(ServoPosition.UP);
-                placing.setClawTurn(ServoPosition.TURN_OUT);
-                placing.setClawWrist(ServoPosition.DOWN);
-                placing.setClawGrip(ServoPosition.DOWN);
-                stateMachineFlow++;
-                break;
-            case 16:
-                //Move left 40 inches to park under red alliance bridge
-                robot.sideDrive(-.5,40);
+                //move under the bridge
+                robot.linearDrive(.5,-5);
+                robot.sideDrive(.5,20);
                 stateMachineFlow++;
                 break;
         }
