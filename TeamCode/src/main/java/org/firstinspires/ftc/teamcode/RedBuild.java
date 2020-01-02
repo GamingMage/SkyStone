@@ -17,6 +17,7 @@ public class RedBuild extends OpMode{
     SkystoneCam cam    = new SkystoneCam();
 
     double time;
+    static final int PLATE_IS_MOVED = 0;
     double distanceToTarget;
     static final int NINETY_DEGREES = 90;
     int angleToTarget = 0;
@@ -50,9 +51,13 @@ public class RedBuild extends OpMode{
                 stateMachineFlow++;
                 break;
             case 1:
-                //Move diagonally (back-left) and grab the foundation
-                robot.diagonalDrive(.65, -25, DiagonalDirection.LEFT);
-                stateMachineFlow++;
+                if (PLATE_IS_MOVED == 0){
+                    //Move diagonally (back-left) and grab the foundation
+                    robot.diagonalDrive(.65, -25, DiagonalDirection.LEFT);
+                    stateMachineFlow++;
+                }else if (PLATE_IS_MOVED == 1){
+                    stateMachineFlow = 5;
+                }
                 break;
             case 2:
                 //Back up to the foundation

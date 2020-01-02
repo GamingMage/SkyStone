@@ -22,7 +22,8 @@ public class Lift {
 
     DigitalChannel REVTouchBottom;
 
-    static final double SPEED = .5;
+    static final double SPEED = .75;
+    static final int LEVEL_INSIDE = 100;
     static final int BLOCK_HEIGHT = 250;
     static final int LEVEL_TWO = BLOCK_HEIGHT;
     static final int LEVEL_THREE = BLOCK_HEIGHT*2;
@@ -119,10 +120,20 @@ public class Lift {
                 liftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
                 break;
+            case INSIDE:
+                liftDrive.setTargetPosition(LEVEL_INSIDE);
+                liftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftDrive.setPower(SPEED);
+                while(liftDrive.isBusy());
+                liftDrive.setPower(0);
+                liftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                break;
         }
     }
-
+    public double getLiftEncoder(){return liftDrive.getCurrentPosition();}
     public int getLiftPosition() {
         return Math.round(liftDrive.getCurrentPosition()/BLOCK_HEIGHT);
     }
+
 }
