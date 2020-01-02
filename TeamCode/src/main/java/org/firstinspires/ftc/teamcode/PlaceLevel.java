@@ -6,5 +6,6 @@ public enum PlaceLevel {
     THREE,
     FOUR,
     FIVE,
-    CAP;
+    CAP,
+    INSIDE;
 }

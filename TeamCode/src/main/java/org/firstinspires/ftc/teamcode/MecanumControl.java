@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name="Mecanum_Control", group="Test")
 
@@ -42,6 +43,7 @@ public class MecanumControl extends OpMode
         telemetry.addData("LSy",gamepad1.left_stick_y);
         telemetry.addData("LSx",gamepad1.left_stick_x);
         telemetry.addData("Place Height",placeHeight);
+        telemetry.addData("lift encoder",lift.getLiftEncoder());
         telemetry.update();
 
         //Set everything to zero when neither stick is in use
@@ -192,6 +194,7 @@ public class MecanumControl extends OpMode
             robot.leftBack.setPower(0);
             place.setClawWrist(ServoPosition.UP);
             place.setClawTurn(ServoPosition.TURN_IN);
+            lift.placeLevel(PlaceLevel.INSIDE);
             place.setClawWrist(ServoPosition.DOWN);
             place.setClawGrip(ServoPosition.UP);
         }
@@ -210,6 +213,17 @@ public class MecanumControl extends OpMode
             robot.rightFront.setPower(0);
             robot.leftBack.setPower(0);
             place.setPlateHooks(ServoPosition.UP);
+        }
+        //manual control of lift
+        if (gamepad2.y){
+            lift.liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            lift.liftDrive.setPower(.5);
+        }else if (gamepad2.x){
+            lift.liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            lift.liftDrive.setPower(-.5);
+        }else {
+            lift.liftDrive.setPower(0);
+            lift.liftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
 }
