@@ -18,6 +18,7 @@ public class MecanumControl extends OpMode
     float lXSpeed;
     float lYSpeed;
     private int placeHeight;
+    private boolean isIntakeOn;
 
     @Override
     public void init() {
@@ -26,9 +27,10 @@ public class MecanumControl extends OpMode
         intake.init(hardwareMap);
         lift.init(hardwareMap);
 
-        msStuckDetectInit = 8000;
-        msStuckDetectLoop = 8000;
+        msStuckDetectInit = 18000;
+        msStuckDetectLoop = 18000;
         placeHeight = 1;
+        isIntakeOn = false;
 
         telemetry.addData("Hello","It's time");
         telemetry.addData("Loop_Timeout",msStuckDetectLoop);
@@ -124,26 +126,40 @@ public class MecanumControl extends OpMode
         }
 
         //Intake Control
-        if (gamepad1.right_trigger > 0){
+        if (gamepad1.right_trigger > 0 && !isIntakeOn && gamepad1.left_trigger == 0){
             intake.intakeControl(IntakeDirection.IN);
-        }else intake.intakeControl(IntakeDirection.OFF);
-        if (gamepad1.left_trigger > 0){
+            isIntakeOn = true;
+        }else if (gamepad1.right_trigger == 0 && isIntakeOn){
+            intake.intakeControl(IntakeDirection.OFF);
+            isIntakeOn = false;
+        }
+        if (gamepad1.left_trigger > 0 && !isIntakeOn && gamepad1.right_trigger == 0){
             intake.intakeControl(IntakeDirection.OUT);
-        }else intake.intakeControl(IntakeDirection.OFF);
+            isIntakeOn = true;
+        }else if (gamepad1.left_trigger == 0 && isIntakeOn){
+            intake.intakeControl(IntakeDirection.OFF);
+            isIntakeOn = false;
+        }
 
         //control of the lift
         if (gamepad2.dpad_up){
             placeHeight++;
+            if (placeHeight == 7){
+                placeHeight = 1;
+            }
         }
         if (gamepad2.dpad_down){
             placeHeight--;
+            if (placeHeight == 0){
+                placeHeight = 6;
+            }
         }
         if (gamepad1.a){
             robot.rightBack.setPower(0);
             robot.leftFront.setPower(0);
             robot.rightFront.setPower(0);
             robot.leftBack.setPower(0);
-            if (placeHeight <= 1){
+            if (placeHeight == 1){
                 lift.placeLevel(PlaceLevel.ONE);
             }else if (placeHeight == 2){
                 lift.placeLevel(PlaceLevel.TWO);
@@ -153,7 +169,7 @@ public class MecanumControl extends OpMode
                 lift.placeLevel(PlaceLevel.FOUR);
             }else if(placeHeight == 5){
                 lift.placeLevel(PlaceLevel.FIVE);
-            }else if (placeHeight >= 6){
+            }else if (placeHeight == 6){
                 lift.placeLevel(PlaceLevel.CAP);
             }
         }

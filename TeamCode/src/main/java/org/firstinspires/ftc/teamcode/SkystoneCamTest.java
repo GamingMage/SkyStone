@@ -7,14 +7,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 public class SkystoneCamTest extends OpMode {
     SkystoneCam cam    = new SkystoneCam();
-    Intake      intake = new Intake();
 
     @Override
     public void init() {
         cam.init(hardwareMap);
-        intake.init(hardwareMap);
 
-        msStuckDetectInit = 8000;
+        msStuckDetectInit = 11000;
     }
 
     @Override
@@ -24,12 +22,5 @@ public class SkystoneCamTest extends OpMode {
         telemetry.addData("Rotation","{Roll, Pitch, Heading} = %.0f, %.0f, %.0f",
                 cam.getRoll(),cam.getPitch(),cam.getHeading());
         telemetry.update();
-
-        //Intake Control
-        if (gamepad1.right_trigger != 0){
-            intake.intakeControl(IntakeDirection.IN);
-        }else if (gamepad1.left_trigger != 0){
-            intake.intakeControl(IntakeDirection.OUT);
-        }else intake.intakeControl(IntakeDirection.OFF);
     }
 }
