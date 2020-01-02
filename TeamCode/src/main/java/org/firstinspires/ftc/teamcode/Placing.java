@@ -29,11 +29,11 @@ public class Placing {
 
         // Define and initialize ALL installed servos
         clawGrip = hwMap.get(Servo.class, "grip_servo");
-        //clawWrist = hwMap.get(Servo.class, "wrist_servo");
-        //clawTurn = hwMap.get(Servo.class, "turn_servo");
+        clawWrist = hwMap.get(Servo.class, "wrist_servo");
+        clawTurn = hwMap.get(Servo.class, "turn_servo");
 
-        //rPlateHook = hwMap.get(Servo.class, "right_hook");
-        //lPlateHook = hwMap.get(Servo.class, "left_hook");
+        rPlateHook = hwMap.get(Servo.class, "right_hook");
+        lPlateHook = hwMap.get(Servo.class, "left_hook");
 
         clawGrip.setPosition(.3);
     }

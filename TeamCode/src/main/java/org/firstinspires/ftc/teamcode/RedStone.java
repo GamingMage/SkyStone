@@ -11,7 +11,7 @@ public class RedStone extends OpMode{
 
     private int stateMachineFlow;
     //the below int controls whether we move the plate (0 = move, 1 = is moved by teammates)
-    private int plateIsMoved = 0;
+    static final int PLATE_IS_MOVED = 0;
     MecanumDrive robot = new MecanumDrive();
     Intake intake      = new Intake();
     Lift lift          = new Lift();
@@ -25,6 +25,7 @@ public class RedStone extends OpMode{
     static final int NINETY_DEGREES = 90;
     static final double DISTANCE_TO_WALL = 10;
     int angleToTarget = 0;
+    int angleToBridge = 0;
     int initView = 0;
     private ElapsedTime runtime = new ElapsedTime();
     /***********************************
@@ -56,28 +57,28 @@ public class RedStone extends OpMode{
                 break;
             case 1:
                 //Move towards stones
-                robot.sideDrive(.5,-5);
+                robot.sideDrive(.65,-11);
                 stateMachineFlow++;
                 break;
             case 2:
                 if (cam.isVisible()) {
                     angleToTarget = Math.round(cam.getHeading()-NINETY_DEGREES);
-                    robot.gStatTurn(.5, angleToTarget);
+                    robot.gStatTurn(.65, angleToTarget);
                     distanceToTarget = cam.getXPosition()-CAMERA_LENS_POS;
                 }else {
                     angleToTarget = -90;
-                    robot.gStatTurn(.5, angleToTarget);
+                    robot.gStatTurn(.65, angleToTarget);
                     distanceToTarget = NO_INPUT_DISTANCE;
                 }
                 stateMachineFlow++;
                 break;
             case 3:
-                robot.linearDrive(.5, -distanceToTarget);
+                robot.linearDrive(.65, -distanceToTarget);
                 stateMachineFlow++;
                 break;
             case 4:
                 //square back to the stones
-                robot.gStatTurn(.5, -NINETY_DEGREES-angleToTarget);
+                robot.gStatTurn(.65, -NINETY_DEGREES - angleToTarget);
                 stateMachineFlow++;
                 break;
             case 5:
@@ -89,8 +90,7 @@ public class RedStone extends OpMode{
                 break;
             case 6:
                 //Back up
-                robot.linearDrive(.5,-3);
-
+                robot.linearDrive(.65,-3);
                 stateMachineFlow++;
                 break;
             case 7:
@@ -99,102 +99,90 @@ public class RedStone extends OpMode{
                 lift.placeLevel(PlaceLevel.TWO);
             case 8:
                 //Move away from the other stones
-                robot.linearDrive(.5,10);
+                robot.linearDrive(.65,3);
                 stateMachineFlow++;
                 break;
             case 9:
-                //face camera to picture on the wall
-                robot.gStatTurn(.5,-NINETY_DEGREES);
+                robot.gStatTurn(.65, -(-NINETY_DEGREES-angleToTarget));
                 stateMachineFlow++;
                 break;
             case 10:
-                //move to picture on wall
-                angleToTarget = Math.round(cam.getHeading());
-                distanceToTarget = DISTANCE_TO_WALL*Math.tan(angleToTarget);
-                robot.linearDrive(.5,distanceToTarget);
+                robot.linearDrive(.65, distanceToTarget);
                 stateMachineFlow++;
                 break;
             case 11:
-                //square to the picture
-                angleToTarget = Math.round(cam.getHeading());
-                robot.gStatTurn(.5,angleToTarget);
+                angleToBridge = -(angleToTarget + 180);
+                robot.gStatTurn(.65, angleToBridge);
                 stateMachineFlow++;
                 break;
             case 12:
                 //Move to other side of bridge
-                robot.linearDrive(-.5,-60);
+                robot.linearDrive(-.65,-54);
                 stateMachineFlow++;
                 break;
             case 13:
                 //move to foundation
-                if (plateIsMoved == 0){
-                    robot.sideDrive(.5,-10);
-                }else if (plateIsMoved == 1){
-                    robot.sideDrive(.5,5);
+                if (PLATE_IS_MOVED == 0){
+                    robot.sideDrive(.65,34.5);
+                }else if (PLATE_IS_MOVED == 1){
+                    robot.sideDrive(.65,8);
                 }
                 stateMachineFlow++;
                 break;
             case 14:
                 //move up to the side of the foundation
-                robot.linearDrive(.5,-5);
+                robot.linearDrive(.65,-2.5);
                 stateMachineFlow++;
                 break;
             case 15:
                 //drop the stone
-                lift.placeLevel(PlaceLevel.ONE);
                 placing.setClawGrip(ServoPosition.UP);
-                lift.placeLevel(PlaceLevel.TWO);
                 stateMachineFlow++;
                 break;
             case 16:
-                if (plateIsMoved == 0){
+                if (PLATE_IS_MOVED == 0){
                     //move to the side of the foundation
-                    robot.sideDrive(.5,-15);
-                }else if (plateIsMoved == 1){
+                    robot.linearDrive(.65,2.5);
+                    robot.sideDrive(.65,-18);
+                }else if (PLATE_IS_MOVED == 1){
                     //move to the side to be in position to park under the bridge
-                    robot.sideDrive(.5,-7);
+                    robot.sideDrive(.65,-13);
                 }
                 stateMachineFlow++;
                 break;
             case 17:
-                if (plateIsMoved ==0){
+                if (PLATE_IS_MOVED ==0){
                     //turn so back is parallel to the plate
-                    robot.gStatTurn(.5,NINETY_DEGREES);
+                    robot.gStatTurn(.65,NINETY_DEGREES);
                     stateMachineFlow++;
-                }else if (plateIsMoved == 1){
+                }else if (PLATE_IS_MOVED == 1){
                     //drive under the bridge and finish
-                    robot.linearDrive(.5,20);
+                    robot.linearDrive(.65,45);
                     stateMachineFlow = 30;
                 }
                 break;
             case 18:
                 //move to the side of the plate and up to it
-                robot.sideDrive(.5,-7);
-                robot.linearDrive(.5,-4);
+                robot.sideDrive(.65,-30);
+                robot.linearDrive(.65,-4.5);
                 stateMachineFlow++;
                 break;
             case 19:
                 //set hooks and pull plate
                 placing.setPlateHooks(ServoPosition.DOWN);
-                robot.linearDrive(.5,15);
                 stateMachineFlow++;
                 break;
             case 20:
-                //move out from plate and around
-                robot.sideDrive(.5,7);
-                robot.linearDrive(.5,-20);
-                robot.sideDrive(.5,-7);
+                robot.linearDrive(.65,29);
                 stateMachineFlow++;
                 break;
             case 21:
-                //push plate
-                robot.linearDrive(.5,10);
+                placing.setPlateHooks(ServoPosition.UP);
                 stateMachineFlow++;
                 break;
             case 22:
                 //move under bridge
-                robot.linearDrive(.5,-5);
-                robot.sideDrive(.5,20);
+                robot.sideDrive(.65,50);
                 stateMachineFlow++;
                 break;
         }
