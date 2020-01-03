@@ -32,10 +32,10 @@ public class Placing {
         clawWrist = hwMap.get(Servo.class, "wrist_servo");
         clawTurn = hwMap.get(Servo.class, "turn_servo");
 
-        rPlateHook = hwMap.get(Servo.class, "right_hook");
-        lPlateHook = hwMap.get(Servo.class, "left_hook");
+        //rPlateHook = hwMap.get(Servo.class, "right_hook");
+        //lPlateHook = hwMap.get(Servo.class, "left_hook");
 
-        clawGrip.setPosition(.3);
+        clawGrip.setPosition(.25);
     }
 
     //All servo values are subject to change
@@ -57,15 +57,15 @@ public class Placing {
     public void setClawWrist(ServoPosition position){
         //raise gripper to clear lift
         if (position == ServoPosition.UP){
-            clawWrist.setPosition(1);
+            clawWrist.setPosition(0);
             runtime = period.time();
-            while (.6 > period.time() - runtime);
+            while (1 > period.time() - runtime);
         }
         //lower gripper
         if (position == ServoPosition.DOWN){
-            clawWrist.setPosition(0);
+            clawWrist.setPosition(.8);
             runtime = period.time();
-            while (.6 > period.time() - runtime);
+            while (1 > period.time() - runtime);
         }
     }
     public void setClawTurn(ServoPosition position){
@@ -73,13 +73,13 @@ public class Placing {
         if (position == ServoPosition.TURN_OUT){
             clawTurn.setPosition(1);
             runtime = period.time();
-            while (.6 > period.time() - runtime);
+            while (1 > period.time() - runtime);
         }
         //turn gripper over lift to go back to collection position
         if (position == ServoPosition.TURN_IN){
             clawTurn.setPosition(0);
             runtime = period.time();
-            while (.6 > period.time() - runtime);
+            while (1 > period.time() - runtime);
         }
     }
     public void setPlateHooks(ServoPosition position){

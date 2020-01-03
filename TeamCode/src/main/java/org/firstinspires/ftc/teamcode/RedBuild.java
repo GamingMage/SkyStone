@@ -17,7 +17,7 @@ public class RedBuild extends OpMode{
     SkystoneCam cam    = new SkystoneCam();
 
     double time;
-    static final int PLATE_IS_MOVED = 0;
+    static final int PLATE_IS_MOVED = 1;
     double distanceToTarget;
     static final int NINETY_DEGREES = 90;
     int angleToTarget = 0;
