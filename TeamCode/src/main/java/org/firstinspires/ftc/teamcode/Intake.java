@@ -29,14 +29,14 @@ public class Intake {
         rightIntake = hwMap.get(CRServo.class,"right_intake");
     }
 
-    //Power directions subject to change depending on how motors move when giving positive or negative powers
+    //Power directions subject to change depending on how servos move when giving positive or negative powers
     public void intakeControl(IntakeDirection direction){
         if (direction == IntakeDirection.IN){
-            leftIntake.setPower(-.7);
-            rightIntake.setPower(-.7);
+            leftIntake.setPower(-1);
+            rightIntake.setPower(-1);
         }if (direction == IntakeDirection.OUT){
-            leftIntake.setPower(.7);
-            rightIntake.setPower(.7);
+            leftIntake.setPower(1);
+            rightIntake.setPower(1);
         }if (direction == IntakeDirection.OFF){
             leftIntake.setPower(0);
             rightIntake.setPower(0);

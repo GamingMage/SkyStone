@@ -11,7 +11,7 @@ public class BlueStone extends OpMode {
 
     private int stateMachineFlow;
     //the below int controls whether we move the plate (0 = move, 1 = is moved by teammates)
-    static final int PLATE_IS_MOVED = 0;
+    static final int PLATE_IS_MOVED = 1;
     MecanumDrive robot = new MecanumDrive();
     Intake intake      = new Intake();
     Lift lift          = new Lift();
