@@ -22,13 +22,16 @@ public class Lift {
 
     DigitalChannel REVTouchBottom;
 
-    static final double SPEED = .5;
-    static final int BLOCK_HEIGHT = 250;
-    static final int LEVEL_TWO = BLOCK_HEIGHT;
-    static final int LEVEL_THREE = BLOCK_HEIGHT*2;
-    static final int LEVEL_FOUR = BLOCK_HEIGHT*3;
-    static final int LEVEL_FIVE = BLOCK_HEIGHT*4;
-    static final int LEVEL_CAP = BLOCK_HEIGHT*5;
+    static final double SPEED     = -.75;
+    static final int LEVEL_INSIDE = -475;
+    static final int ADJUSTED     = -200;
+    static final int PLATE_HEIGHT = -450;
+    static final int BLOCK_HEIGHT = -650;
+    static final int LEVEL_TWO    = PLATE_HEIGHT+ADJUSTED;
+    static final int LEVEL_THREE  = BLOCK_HEIGHT+PLATE_HEIGHT+ADJUSTED;
+    static final int LEVEL_FOUR   = (BLOCK_HEIGHT*2)+PLATE_HEIGHT+ADJUSTED;
+    static final int LEVEL_FIVE   = (BLOCK_HEIGHT*3)+PLATE_HEIGHT+ADJUSTED;
+    static final int LEVEL_CAP    = (BLOCK_HEIGHT*4)+PLATE_HEIGHT+ADJUSTED;
 
     public Lift(){
     }
@@ -68,10 +71,20 @@ public class Lift {
             liftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
     }
+    //NOTE: ONE is ground level
     public void placeLevel (PlaceLevel level) {
         switch (level){
             case ONE:
                 liftDown(SPEED);
+
+                break;
+            case INSIDE:
+                liftDrive.setTargetPosition(LEVEL_INSIDE);
+                liftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftDrive.setPower(SPEED);
+                while(liftDrive.isBusy());
+                liftDrive.setPower(0);
+                liftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
                 break;
             case TWO:
@@ -121,8 +134,9 @@ public class Lift {
                 break;
         }
     }
-
+    public double getLiftEncoder(){return liftDrive.getCurrentPosition();}
     public int getLiftPosition() {
         return Math.round(liftDrive.getCurrentPosition()/BLOCK_HEIGHT);
     }
+
 }

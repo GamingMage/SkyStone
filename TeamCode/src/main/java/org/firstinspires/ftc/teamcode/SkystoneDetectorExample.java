@@ -63,7 +63,7 @@ public class SkystoneDetectorExample extends LinearOpMode {
          * For a rear facing camera or a webcam, rotation is defined assuming the camera is facing
          * away from the user.
          */
-        phoneCam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+        phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
 
         /*
          * Wait for the user to press start on the Driver Station
@@ -79,10 +79,11 @@ public class SkystoneDetectorExample extends LinearOpMode {
             telemetry.addData("Stone Position Y", skyStoneDetector.getScreenPosition().y);
             telemetry.addData("Frame Count", phoneCam.getFrameCount());
             telemetry.addData("FPS", String.format(Locale.US, "%.2f", phoneCam.getFps()));
-            telemetry.addData("Total frame time ms", phoneCam.getTotalFrameTimeMs());
-            telemetry.addData("Pipeline time ms", phoneCam.getPipelineTimeMs());
-            telemetry.addData("Overhead time ms", phoneCam.getOverheadTimeMs());
-            telemetry.addData("Theoretical max FPS", phoneCam.getCurrentPipelineMaxFps());
+            //telemetry.addData("Total frame time ms", phoneCam.getTotalFrameTimeMs());
+            //telemetry.addData("Pipeline time ms", phoneCam.getPipelineTimeMs());
+            //telemetry.addData("Overhead time ms", phoneCam.getOverheadTimeMs());
+            //telemetry.addData("Theoretical max FPS", phoneCam.getCurrentPipelineMaxFps());
+            telemetry.addData("Position", skyStoneDetector.getScreenPosition());
             telemetry.update();
 
             /*
@@ -113,6 +114,9 @@ public class SkystoneDetectorExample extends LinearOpMode {
                  */
                 phoneCam.stopStreaming();
                 //webcam.closeCameraDevice();
+            }
+            else if (gamepad1.b) {
+                phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
             }
 
             /*

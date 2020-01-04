@@ -3,41 +3,62 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="Mecanum_Control", group="Test")
 
 public class MecanumControl extends OpMode
 {
 
-    MecanumDrive robot = new MecanumDrive();
-    Placing      place = new Placing();
+    MecanumDrive robot  = new MecanumDrive();
+    Placing      place  = new Placing();
+    Intake       intake = new Intake();
+    Lift         lift   = new Lift();
 
-    //Speed variables to allow for speed dilation
-    float rXSpeed;
-    float lXSpeed;
-    float lYSpeed;
+    //Speed variables allow for speed dilation
+    private float rXSpeed;
+    private float lXSpeed;
+    private float lYSpeed;
+
+    private int placeHeight;
+    private boolean isIntakeOn;
+    private boolean wasLevelIncreased;
+    private boolean wasLevelDecreased;
+
+    private ElapsedTime period  = new ElapsedTime();
+    private double runtime = 0;
 
     @Override
     public void init() {
         robot.init(hardwareMap);
         place.init(hardwareMap);
+        intake.init(hardwareMap);
+        lift.init(hardwareMap);
 
-        msStuckDetectLoop = 8000;
+        msStuckDetectInit = 18000;
+        msStuckDetectLoop = 18000;
+        placeHeight = 0;
+        wasLevelIncreased = false;
+        wasLevelDecreased = false;
+        isIntakeOn = false;
 
-        telemetry.addData("Hello","It's time");
+        telemetry.addData("Hello","be ready");
         telemetry.addData("Loop_Timeout",msStuckDetectLoop);
         telemetry.update();
     }
     @Override
     public void loop() {
-        telemetry.addData("RSx",gamepad1.right_stick_x);
-        telemetry.addData("LSy",gamepad1.left_stick_y);
-        telemetry.addData("LSx",gamepad1.left_stick_x);
+        telemetry.addData("Place Height",placeHeight);
+        telemetry.addData("lift encoder",lift.getLiftEncoder());
+        telemetry.addData("is intake on",isIntakeOn);
+        telemetry.addData("touch sensor",lift.REVTouchBottom.getState());
+        telemetry.addData("wrist position",place.clawWrist.getPosition());
+        telemetry.addData("turn position",place.clawTurn.getPosition());
         telemetry.update();
 
         //Set everything to zero when neither stick is in use
-        if (gamepad1.left_stick_y>-.1 && gamepad1.left_stick_y<.1 && gamepad1.left_stick_x>-.1 && gamepad1.left_stick_x<.1 && gamepad1.right_stick_x>-.1 && gamepad1.right_stick_x<.1){
+        if (gamepad1.left_stick_y>-.1 && gamepad1.left_stick_y<.1 && gamepad1.left_stick_x>-.1
+                && gamepad1.left_stick_x<.1 && gamepad1.right_stick_x>-.1 && gamepad1.right_stick_x<.1){
             robot.rightBack.setPower(0);
             robot.leftFront.setPower(0);
             robot.rightFront.setPower(0);
@@ -64,7 +85,7 @@ public class MecanumControl extends OpMode
         }
 
         //Control of forward and backward movement
-        if (gamepad1.left_stick_x>-.1 && gamepad1.left_stick_x<.1 && (gamepad1.left_stick_y<-.1 || gamepad1.left_stick_y>.1)) {
+        if (gamepad1.left_stick_x>-.1 && gamepad1.left_stick_x<.1 && (gamepad1.left_stick_y<-.1 || gamepad1.left_stick_y>.1)){
             robot.rightBack.setPower(-lYSpeed);
             robot.leftBack.setPower(-lYSpeed);
             robot.rightFront.setPower(-lYSpeed);
@@ -114,6 +135,133 @@ public class MecanumControl extends OpMode
             place.setClawGrip(ServoPosition.DOWN);
         }if (gamepad1.dpad_up){
             place.setClawGrip(ServoPosition.UP);
+        }
+
+        //Intake Control
+        /*if (gamepad1.right_trigger > 0 && !isIntakeOn && gamepad1.left_trigger == 0){
+            intake.intakeControl(IntakeDirection.IN);
+            isIntakeOn = true;
+        }else if (gamepad1.right_trigger == 0 && isIntakeOn){
+            intake.intakeControl(IntakeDirection.OFF);
+            isIntakeOn = false;
+        }
+        if (gamepad1.left_trigger > 0 && !isIntakeOn && gamepad1.right_trigger == 0){
+            intake.intakeControl(IntakeDirection.OUT);
+            isIntakeOn = true;
+        }else if (gamepad1.left_trigger == 0 && isIntakeOn){
+            intake.intakeControl(IntakeDirection.OFF);
+            isIntakeOn = false;
+        }*/
+        intake.leftIntake.setPower(-gamepad2.left_stick_y);
+        intake.rightIntake.setPower(-gamepad2.left_stick_y);
+
+        //control of the lift
+        if (gamepad2.dpad_up){
+            wasLevelIncreased = true;
+        }else if (!gamepad2.dpad_up && wasLevelIncreased){
+            placeHeight++;
+            if (placeHeight == 7){
+                placeHeight = 0;
+            }
+            wasLevelIncreased = false;
+        }
+        if (gamepad2.dpad_down){
+            wasLevelDecreased = true;
+        }else if (!gamepad2.dpad_down && wasLevelDecreased){
+            placeHeight--;
+            if (placeHeight == -1){
+                placeHeight = 6;
+            }
+            wasLevelDecreased = false;
+        }
+        if (gamepad1.a){
+            robot.rightBack.setPower(0);
+            robot.leftFront.setPower(0);
+            robot.rightFront.setPower(0);
+            robot.leftBack.setPower(0);
+            if (placeHeight == 0){
+                lift.placeLevel(PlaceLevel.ONE);
+            }else if (placeHeight == 1){
+                lift.placeLevel(PlaceLevel.INSIDE);
+            }else if (placeHeight == 2){
+                lift.placeLevel(PlaceLevel.TWO);
+            }else if (placeHeight == 3){
+                lift.placeLevel(PlaceLevel.THREE);
+            }else if (placeHeight == 4){
+                lift.placeLevel(PlaceLevel.FOUR);
+            }else if(placeHeight == 5){
+                lift.placeLevel(PlaceLevel.FIVE);
+            }else if (placeHeight == 6){
+                lift.placeLevel(PlaceLevel.CAP);
+            }
+        }
+
+        //move the claw assembly into and out of scoring position
+        if (gamepad1.dpad_left){
+            robot.rightBack.setPower(0);
+            robot.leftFront.setPower(0);
+            robot.rightFront.setPower(0);
+            robot.leftBack.setPower(0);
+            place.setClawGrip(ServoPosition.DOWN);
+            place.setClawWrist(ServoPosition.UP);
+            place.setClawTurn(ServoPosition.TURN_OUT);
+            place.setClawWrist(ServoPosition.DOWN);
+        }
+        if (gamepad1.dpad_right){
+            robot.rightBack.setPower(0);
+            robot.leftFront.setPower(0);
+            robot.rightFront.setPower(0);
+            robot.leftBack.setPower(0);
+            place.setClawWrist(ServoPosition.UP);
+            place.setClawTurn(ServoPosition.TURN_IN);
+            lift.placeLevel(PlaceLevel.INSIDE);
+            place.setClawWrist(ServoPosition.DOWN);
+            place.setClawGrip(ServoPosition.UP);
+        }
+
+        //control of plate hooks
+        /*if (gamepad2.right_bumper){
+            robot.rightBack.setPower(0);
+            robot.leftFront.setPower(0);
+            robot.rightFront.setPower(0);
+            robot.leftBack.setPower(0);
+            place.setPlateHooks(ServoPosition.DOWN);
+        }
+        if (gamepad2.left_bumper){
+            robot.rightBack.setPower(0);
+            robot.leftFront.setPower(0);
+            robot.rightFront.setPower(0);
+            robot.leftBack.setPower(0);
+            place.setPlateHooks(ServoPosition.UP);
+        }*/
+        //manual control of lift
+        if (gamepad2.y){
+            lift.liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            lift.liftDrive.setPower(-.5);
+        }else if (gamepad2.x && lift.REVTouchBottom.getState()){
+            lift.liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            lift.liftDrive.setPower(.5);
+        }else {
+            lift.liftDrive.setPower(0);
+            lift.liftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+
+        //manual control of servos
+        if (gamepad2.right_bumper){
+            place.setClawWrist(ServoPosition.UP);
+        }
+        if (gamepad2.left_bumper){
+            place.setClawWrist(ServoPosition.DOWN);
+        }
+        if (gamepad2.dpad_right){
+            place.clawTurn.setPosition(0);
+            runtime = period.time();
+            while (1 > period.time() - runtime);
+        }
+        if (gamepad2.dpad_left){
+            place.clawTurn.setPosition(1);
+            runtime = period.time();
+            while (1 > period.time() - runtime);
         }
     }
 }
