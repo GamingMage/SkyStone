@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-@Disabled
+//@Disabled
 @Autonomous(name="Blue: Build", group="Test")
 public class BlueBuild extends OpMode{
 
@@ -37,7 +37,7 @@ public class BlueBuild extends OpMode{
         intake.init(hardwareMap);
         lift.init(hardwareMap);
         placing.init(hardwareMap);
-        cam.init(hardwareMap);
+        //cam.init(hardwareMap);
 
         stateMachineFlow = 0;
     }
@@ -75,7 +75,7 @@ public class BlueBuild extends OpMode{
                 break;
             case 5:
                 //move under the bridge
-                robot.sideDrive(.65,-45);
+                robot.sideDrive(.65,-25);
                 stateMachineFlow++;
                 break;
         }
