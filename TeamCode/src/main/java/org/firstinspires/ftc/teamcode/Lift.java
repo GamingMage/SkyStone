@@ -26,7 +26,7 @@ public class Lift {
     static final int LEVEL_INSIDE = -475;
     static final int ADJUSTED     = -200;
     static final int PLATE_HEIGHT = -450;
-    static final int BLOCK_HEIGHT = -650;
+    static final int BLOCK_HEIGHT = -1000;
     static final int LEVEL_TWO    = PLATE_HEIGHT+ADJUSTED;
     static final int LEVEL_THREE  = BLOCK_HEIGHT+PLATE_HEIGHT+ADJUSTED;
     static final int LEVEL_FOUR   = (BLOCK_HEIGHT*2)+PLATE_HEIGHT+ADJUSTED;
