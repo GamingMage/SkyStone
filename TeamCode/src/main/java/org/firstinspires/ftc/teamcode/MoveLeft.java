@@ -27,7 +27,7 @@ public class MoveLeft extends OpMode{
     @Override
     public void init() {
         msStuckDetectInit = 11500;
-        msStuckDetectLoop = 10000;
+        msStuckDetectLoop = 25000;
 
         robot.init(hardwareMap);
         intake.init(hardwareMap);
