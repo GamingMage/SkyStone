@@ -16,11 +16,8 @@ public class MoveRight extends OpMode{
     SkystoneCam cam    = new SkystoneCam();
 
     double time;
-    static final int PLATE_IS_MOVED = 1;
-    double distanceToTarget;
-    static final int NINETY_DEGREES = 90;
-    int angleToTarget = 0;
-    int initView = 0;
+    // controls how long the robot waits before moving
+    static final double WAIT_TIME = 0;
     private ElapsedTime     runtime = new ElapsedTime();
     /***********************************
      *
@@ -51,6 +48,7 @@ public class MoveRight extends OpMode{
                 break;
             case 1:
                 //move under the bridge
+                while (WAIT_TIME > runtime.time() - time);
                 robot.sideDrive(.65,25);
                 stateMachineFlow++;
                 break;
