@@ -175,7 +175,7 @@ public class MecanumControl extends OpMode
             }
             wasLevelDecreased = false;
         }
-        if (gamepad1.a){
+        if (gamepad1.b){
             robot.rightBack.setPower(0);
             robot.leftFront.setPower(0);
             robot.rightFront.setPower(0);
