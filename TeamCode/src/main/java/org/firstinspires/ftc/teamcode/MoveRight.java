@@ -21,7 +21,7 @@ public class MoveRight extends OpMode{
     private ElapsedTime     runtime = new ElapsedTime();
     /***********************************
      *
-     * This program starts with the robot's intake facing the wall
+     * This program starts with the robot's intake facing the center
      *
      ***********************************/
     @Override
