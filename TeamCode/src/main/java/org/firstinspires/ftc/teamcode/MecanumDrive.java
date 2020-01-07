@@ -174,122 +174,82 @@ public class MecanumDrive {
 
     } //end of encoder drive method
 
-    void encoderDriveLB(double speed,
+    //y = x diagonal move
+    void encoderDriveLfRb(double speed,
                         double distance) {
-        int newLBTarget;
-
-        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        // Determine new target position, and pass to motor controller
-        newLBTarget = leftBack.getCurrentPosition() + (int) (distance * COUNTS_PER_INCH);
-
-        leftBack.setTargetPosition(newLBTarget);
-
-
-        // Turn On RUN_TO_POSITION
-        leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        // start motion.
-        leftBack.setPower(Math.abs(speed));
-
-
-        while (leftBack.isBusy()) ;
-
-        // Stop all motion;
-        leftBack.setPower(0);
-
-
-        // Turn off RUN_TO_POSITION
-        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-    } //end of encoder driveLB method
-
-    void encoderDriveRB(double speed,
-                        double distance) {
+        int newLFTarget;
         int newRBTarget;
 
+        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // Determine new target position, and pass to motor controller
-        newRBTarget = rightBack.getCurrentPosition() + (int) (distance * COUNTS_PER_INCH);
-        rightBack.setTargetPosition(newRBTarget);
-
-        // Turn On RUN_TO_POSITION
-        rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        // start motion.
-        rightBack.setPower(Math.abs(speed));
-
-        while (rightBack.isBusy()) ;
-
-        // Stop all motion;
-        rightBack.setPower(0);
-
-        // Turn off RUN_TO_POSITION
-        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-    } //end of encoder driveRB method
-
-    void encoderDriveLF(double speed,
-                        double distance) {
-        int newLFTarget;
-
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        // Determine new target position, and pass to motor controller
         newLFTarget = leftFront.getCurrentPosition() + (int) (distance * COUNTS_PER_INCH);
+        newRBTarget = rightBack.getCurrentPosition() + (int) (distance * COUNTS_PER_INCH);
         leftFront.setTargetPosition(newLFTarget);
+        rightFront.setTargetPosition(newRBTarget);
 
         // Turn On RUN_TO_POSITION
         leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // start motion.
         leftFront.setPower(Math.abs(speed));
+        rightBack.setPower(Math.abs(speed));
 
-        while (leftFront.isBusy()) ;
+        while (leftFront.isBusy() && rightBack.isBusy()) ;
 
         // Stop all motion;
         leftFront.setPower(0);
+        rightBack.setPower(0);
 
         // Turn off RUN_TO_POSITION
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-    } //end of encoder driveLF method
+    } //end of encoder driveLfRb method
 
-    void encoderDriveRF(double speed,
+    //y = -x diagonal move
+    void encoderDriveRfLb(double speed,
                         double distance) {
         int newRFTarget;
+        int newLBTarget;
 
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // Determine new target position, and pass to motor controller
         newRFTarget = rightFront.getCurrentPosition() + (int) (distance * COUNTS_PER_INCH);
+        newLBTarget = leftBack.getCurrentPosition() + (int) (distance * COUNTS_PER_INCH);
 
         rightFront.setTargetPosition(newRFTarget);
+        leftBack.setTargetPosition(newLBTarget);
 
         // Turn On RUN_TO_POSITION
         rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // start motion.
         rightFront.setPower(Math.abs(speed));
+        leftBack.setPower(Math.abs(speed));
 
-        while (rightFront.isBusy()) ;
+        while (rightFront.isBusy() && leftBack.isBusy()) ;
 
         // Stop all motion;
         rightFront.setPower(0);
+        leftBack.setPower(0);
 
         // Turn off RUN_TO_POSITION
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-    } //end of encoder driveRF method
+    } //end of encoder driveRfLb method
 
     public void linearDrive(double speed, double distance) {
         encoderDrive(speed, distance, distance);
@@ -359,19 +319,15 @@ public class MecanumDrive {
 
         if (distance > 0) {
             if (direction == DiagonalDirection.LEFT) {
-                encoderDriveRF(speed, distance);
-                encoderDriveLB(speed, distance);
+                encoderDriveRfLb(speed, distance);
             } else if (direction == DiagonalDirection.RIGHT) {
-                encoderDriveLF(speed, distance);
-                encoderDriveRB(speed, distance);
+                encoderDriveLfRb(speed, distance);
             }
         } else if (distance < 0) {
             if (direction == DiagonalDirection.LEFT) {
-                encoderDriveLF(speed, distance);
-                encoderDriveRB(speed, distance);
+                encoderDriveLfRb(speed, distance);
             } else if (direction == DiagonalDirection.RIGHT) {
-                encoderDriveRF(speed, distance);
-                encoderDriveLB(speed, distance);
+                encoderDriveRfLb(speed, distance);
             }
         }
     }
