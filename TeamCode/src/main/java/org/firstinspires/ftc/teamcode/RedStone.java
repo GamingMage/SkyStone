@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-@Disabled
+//@Disabled
 @Autonomous(name="Red: Stones", group="Test")
 public class RedStone extends OpMode{
 
@@ -35,14 +35,14 @@ public class RedStone extends OpMode{
      ***********************************/
     @Override
     public void init() {
-        msStuckDetectInit = 11500;
+        msStuckDetectInit = 13500;
         msStuckDetectLoop = 11500;
 
         robot.init(hardwareMap);
         intake.init(hardwareMap);
         lift.init(hardwareMap);
         placing.init(hardwareMap);
-        cam.init(hardwareMap);
+        //cam.init(hardwareMap);
 
         stateMachineFlow = 0;
     }
@@ -57,16 +57,30 @@ public class RedStone extends OpMode{
                 break;
             case 1:
                 //Move towards stones
+                telemetry.log().add("Before side");
                 robot.sideDrive(.65,-11);
+                telemetry.log().add("After side");
                 stateMachineFlow++;
                 break;
             case 2:
-                if (cam.isVisible()) {
-                    angleToTarget = Math.round(cam.getHeading()-NINETY_DEGREES);
+                telemetry.log().add("Before if cam visible");
+                //if (cam.isVisible()) {
+                if (true) {
+                    //angleToTarget = Math.round(cam.getHeading()-NINETY_DEGREES);
+                    angleToTarget = -NINETY_DEGREES;
+                    telemetry.addData("sup","NaBrO");
+                    telemetry.update();
+                    telemetry.addData("angle",angleToTarget);
+                    telemetry.update();
                     robot.gStatTurn(.65, angleToTarget);
-                    distanceToTarget = cam.getXPosition()-CAMERA_LENS_POS;
+                    //distanceToTarget = cam.getXPosition()-CAMERA_LENS_POS;
+                    distanceToTarget = -7;
                 }else {
                     angleToTarget = -90;
+                    telemetry.addData("hmmm","Yeah");
+                    telemetry.update();
+                    telemetry.addData("angle",angleToTarget);
+                    telemetry.update();
                     robot.gStatTurn(.65, angleToTarget);
                     distanceToTarget = NO_INPUT_DISTANCE;
                 }

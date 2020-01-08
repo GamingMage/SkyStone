@@ -343,11 +343,11 @@ public class MecanumDrive {
         // clockwise (right).
 
         if (degrees < 0) {   // turn right.
-            leftPower = -power;
-            rightPower = power;
-        } else if (degrees > 0) {   // turn left.
             leftPower = power;
             rightPower = -power;
+        } else if (degrees > 0) {   // turn left.
+            leftPower = -power;
+            rightPower = power;
         } else return;
 
         // set power to rotate.

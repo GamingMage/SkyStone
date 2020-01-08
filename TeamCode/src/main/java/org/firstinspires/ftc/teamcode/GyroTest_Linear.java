@@ -47,11 +47,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  */
 
 @Autonomous(name="Pushbot: Auto Drive By Gyro", group="Pushbot")
-@Disabled
+//@Disabled
 public class GyroTest_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
-    RoverDrive robot = new RoverDrive();
+    MecanumDrive robot = new MecanumDrive();
 
     static final double     DRIVE_SPEED             = 0.7;     // Nominal speed for better accuracy.
     static final double     TURN_SPEED              = 0.5;     // Nominal half speed for better accuracy.
@@ -70,6 +70,8 @@ public class GyroTest_Linear extends LinearOpMode {
 
         robot.leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // Wait for the game to start (Display Gyro value), and reset gyro before we move..
         while (!isStarted()) {

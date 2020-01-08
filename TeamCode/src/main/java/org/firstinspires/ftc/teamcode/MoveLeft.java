@@ -17,7 +17,7 @@ public class MoveLeft extends OpMode{
 
     double time;
     // controls how long the robot waits before moving
-    static final double WAIT_TIME = 0;
+    static final double WAIT_TIME = 20;
     private ElapsedTime     runtime = new ElapsedTime();
     /***********************************
      *
@@ -30,9 +30,9 @@ public class MoveLeft extends OpMode{
         msStuckDetectLoop = 25000;
 
         robot.init(hardwareMap);
-        intake.init(hardwareMap);
-        lift.init(hardwareMap);
-        placing.init(hardwareMap);
+        //intake.init(hardwareMap);
+        //lift.init(hardwareMap);
+        //placing.init(hardwareMap);
         //cam.init(hardwareMap);
 
         stateMachineFlow = 0;
