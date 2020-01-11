@@ -50,27 +50,31 @@ public class RedBuild extends OpMode{
                 stateMachineFlow++;
                 break;
             case 1:
-                //Move diagonally (back-left) and grab the foundation
-                robot.diagonalDrive(.65, -25, DiagonalDirection.LEFT);
+                //Move left
+                robot.sideDrive(.55,-17);
                 stateMachineFlow++;
                 break;
             case 2:
                 //Back up to the foundation
-                robot.linearDrive(.65, -11);
+                robot.linearDrive(.5, -30);
                 stateMachineFlow++;
                 break;
             case 3:
-                placing.setClawGrip(ServoPosition.DOWN);
+                placing.setPlateHooks(ServoPosition.DOWN);
                 stateMachineFlow++;
                 break;
             case 4:
                 //move the plate into the zone
-                robot.linearDrive(.65,29);
+                robot.linearDrive(.4,33);
                 stateMachineFlow++;
                 break;
             case 5:
+                placing.setPlateHooks(ServoPosition.UP);
+                stateMachineFlow++;
+                break;
+            case 6:
                 //move under the bridge
-                robot.sideDrive(.65,25);
+                robot.sideDrive(.6,47);
                 stateMachineFlow++;
                 break;
         }

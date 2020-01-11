@@ -50,27 +50,35 @@ public class BlueBuild extends OpMode{
                 stateMachineFlow++;
                 break;
             case 1:
-                //Move diagonally (back-right) and grab the foundation
-                robot.diagonalDrive(.65, -25, DiagonalDirection.RIGHT);
+                robot.linearDrive(.5,-5);
                 stateMachineFlow++;
                 break;
             case 2:
-                //Back up to the foundation
-                robot.linearDrive(.65, -11);
+                //Move right
+                robot.sideDrive(.65,22);
                 stateMachineFlow++;
                 break;
             case 3:
-                placing.setClawGrip(ServoPosition.DOWN);
+                //Back up to the foundation
+                robot.linearDrive(.5, -25);
                 stateMachineFlow++;
                 break;
             case 4:
-                //move the plate into the zone
-                robot.linearDrive(.65,29);
+                placing.setPlateHooks(ServoPosition.DOWN);
                 stateMachineFlow++;
                 break;
             case 5:
+                //move the plate into the zone
+                robot.linearDrive(.4,32);
+                stateMachineFlow++;
+                break;
+            case 6:
+                placing.setPlateHooks(ServoPosition.UP);
+                stateMachineFlow++;
+                break;
+            case 7:
                 //move under the bridge
-                robot.sideDrive(.65,-25);
+                robot.sideDrive(.6,-47);
                 stateMachineFlow++;
                 break;
         }
