@@ -222,21 +222,6 @@ public class MecanumControl extends OpMode
             lift.placeLevel(PlaceLevel.INSIDE);
         }*/
 
-        //control of plate hooks
-        /*if (gamepad2.right_bumper){
-            robot.rightBack.setPower(0);
-            robot.leftFront.setPower(0);
-            robot.rightFront.setPower(0);
-            robot.leftBack.setPower(0);
-            place.setPlateHooks(ServoPosition.DOWN);
-        }
-        if (gamepad2.left_bumper){
-            robot.rightBack.setPower(0);
-            robot.leftFront.setPower(0);
-            robot.rightFront.setPower(0);
-            robot.leftBack.setPower(0);
-            place.setPlateHooks(ServoPosition.UP);
-        }*/
         //manual control of lift
         if (gamepad2.y){
             lift.liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -251,16 +236,27 @@ public class MecanumControl extends OpMode
 
         //manual control of servos
         if (gamepad2.right_bumper){
-            place.clawWrist.setPosition(0);
+            place.clawWrist.setPosition(.1);
         }
         if (gamepad2.left_bumper){
-            place.clawWrist.setPosition(.77);
+            place.clawWrist.setPosition(.5);
         }
         if (gamepad2.dpad_right){
-            place.clawTurn.setPosition(1);
+            place.clawTurn.setPosition(.975);
         }
         if (gamepad2.dpad_left){
             place.clawTurn.setPosition(.2);
+        }
+        //control of plate hooks
+        //down
+        if (gamepad2.a){
+            place.lPlateHook.setPosition(1);
+            place.rPlateHook.setPosition(0);
+        }
+        //up
+        if (gamepad2.b){
+            place.lPlateHook.setPosition(0);
+            place.rPlateHook.setPosition(1);
         }
     }
 }

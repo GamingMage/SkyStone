@@ -74,6 +74,10 @@ public class MecanumDrive {
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         */
+    }
+    public void initIMU(HardwareMap ahwMap) {
+        // Save reference to Hardware map
+        hwMap = ahwMap;
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 

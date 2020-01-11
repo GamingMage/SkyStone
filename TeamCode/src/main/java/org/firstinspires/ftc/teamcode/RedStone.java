@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-//@Disabled
+@Disabled
 @Autonomous(name="Red: Stones", group="Test")
 public class RedStone extends OpMode{
 
@@ -39,6 +39,7 @@ public class RedStone extends OpMode{
         msStuckDetectLoop = 11500;
 
         robot.init(hardwareMap);
+        robot.initIMU(hardwareMap);
         intake.init(hardwareMap);
         lift.init(hardwareMap);
         placing.init(hardwareMap);
