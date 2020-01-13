@@ -71,6 +71,10 @@ public class MecanumControl extends OpMode
             rXSpeed = gamepad1.right_stick_x;
             lXSpeed  = gamepad1.left_stick_x;
             lYSpeed  = gamepad1.left_stick_y;
+        }else if (gamepad1.right_bumper){
+            rXSpeed = gamepad1.right_stick_x*.4f;
+            lXSpeed  = gamepad1.left_stick_x*.4f;
+            lYSpeed  = gamepad1.left_stick_y*.4f;
         }else {
             rXSpeed = gamepad1.right_stick_x*.7f;
             lXSpeed  = gamepad1.left_stick_x*.7f;
@@ -236,10 +240,10 @@ public class MecanumControl extends OpMode
 
         //manual control of servos
         if (gamepad2.right_bumper){
-            place.clawWrist.setPosition(.1);
+            place.clawWrist.setPosition(.25);
         }
         if (gamepad2.left_bumper){
-            place.clawWrist.setPosition(.5);
+            place.clawWrist.setPosition(.67);
         }
         if (gamepad2.dpad_right){
             place.clawTurn.setPosition(.975);
