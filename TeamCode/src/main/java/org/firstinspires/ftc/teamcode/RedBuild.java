@@ -65,7 +65,7 @@ public class RedBuild extends OpMode{
                 break;
             case 4:
                 //move the plate into the zone
-                robot.linearDrive(.4,33);
+                robot.linearDrive(.4,34);
                 stateMachineFlow++;
                 break;
             case 5:

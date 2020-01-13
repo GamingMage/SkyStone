@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+
 //@Disabled
 @Autonomous(name="Move: Left", group="Test")
 public class MoveLeft extends OpMode{
@@ -16,8 +17,6 @@ public class MoveLeft extends OpMode{
     SkystoneCam cam    = new SkystoneCam();
 
     double time;
-    // controls how long the robot waits before moving
-    static final double WAIT_TIME = 20;
     private ElapsedTime     runtime = new ElapsedTime();
     /***********************************
      *
@@ -48,7 +47,6 @@ public class MoveLeft extends OpMode{
                 break;
             case 1:
                 //move under the bridge
-                while (WAIT_TIME > runtime.time() - time);
                 robot.sideDrive(.65,-25);
                 stateMachineFlow++;
                 break;

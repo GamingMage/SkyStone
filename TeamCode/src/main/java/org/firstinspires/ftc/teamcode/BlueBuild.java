@@ -69,7 +69,7 @@ public class BlueBuild extends OpMode{
                 break;
             case 5:
                 //move the plate into the zone
-                robot.linearDrive(.4,32);
+                robot.linearDrive(.4,33);
                 stateMachineFlow++;
                 break;
             case 6:
