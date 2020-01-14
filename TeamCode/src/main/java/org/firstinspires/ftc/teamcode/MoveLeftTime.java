@@ -71,14 +71,14 @@ public class MoveLeftTime extends OpMode{
         switch (stateMachineFlow) {
             case 0:
                 runtime.reset();
-                time = getRuntime();
+                time = runtime.time();
                 stateMachineFlow++;
                 break;
             case 1:
                 //move under the bridge
-                while (waitTime > runtime.time() - time + 5){
+                while (waitTime > runtime.time() - time){
                     telemetry.addData("wait time", waitTime);
-                    telemetry.addData("time elapsed", runtime.time() - time + 5);
+                    telemetry.addData("time elapsed", runtime.time() - time);
                     telemetry.update();
                 }
                 robot.sideDrive(.65,-25);
