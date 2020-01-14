@@ -48,6 +48,11 @@ public class MoveLeft extends OpMode{
             case 1:
                 //move under the bridge
                 robot.sideDrive(.65,-25);
+                telemetry.addData("Rf",robot.getRFencoder());
+                telemetry.addData("Lf",robot.getLFencoder());
+                telemetry.addData("Rb",robot.getRBencoder());
+                telemetry.addData("Lb",robot.getLBencoder());
+                telemetry.update();
                 stateMachineFlow++;
                 break;
         }
