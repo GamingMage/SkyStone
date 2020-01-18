@@ -384,6 +384,17 @@ public class MecanumDrive {
         //left is + degrees
         //right is - degrees
     }
+    protected void MecanumController(double speed, double direction, double rotation) {
+        final double v1 = speed * Math.cos(direction) + rotation;
+        final double v2 = speed * Math.sin(direction) - rotation;
+        final double v3 = speed * Math.sin(direction) + rotation;
+        final double v4 = speed * Math.cos(direction) - rotation;
+
+        leftFront.setPower(v1);
+        rightFront.setPower(v2);
+        leftBack.setPower(v3);
+        rightBack.setPower(v4);
+    }
     public int getLBencoder(){
         return leftBack.getCurrentPosition();
     }
