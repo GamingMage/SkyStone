@@ -15,7 +15,8 @@ public class MecanumControlV2 extends OpMode
     Intake       intake = new Intake();
     Lift         lift   = new Lift();
 
-    double speed;
+    double driveSpeed;
+    double turnSpeed;
     double direction;
 
     private int placeHeight;
@@ -29,9 +30,9 @@ public class MecanumControlV2 extends OpMode
     @Override
     public void init() {
         robot.init(hardwareMap);
-        place.init(hardwareMap);
-        intake.init(hardwareMap);
-        lift.init(hardwareMap);
+        //place.init(hardwareMap);
+        //intake.init(hardwareMap);
+        //lift.init(hardwareMap);
 
         msStuckDetectInit = 18000;
         msStuckDetectLoop = 18000;
@@ -47,36 +48,48 @@ public class MecanumControlV2 extends OpMode
     @Override
     public void loop() {
         telemetry.addData("Place Height",placeHeight);
-        telemetry.addData("lift encoder",lift.getLiftEncoder());
-        telemetry.addData("touch sensor",lift.REVTouchBottom.getState());
+        //telemetry.addData("lift encoder",lift.getLiftEncoder());
+        //telemetry.addData("touch sensor",lift.REVTouchBottom.getState());
+        telemetry.addData("Drive Speed",driveSpeed);
+        telemetry.addData("Direction",direction);
+        telemetry.addData("Turn Speed", turnSpeed);
         //telemetry.addData("LB",robot.getLBencoder());
         //telemetry.addData("RB",robot.getRBencoder());
         //telemetry.addData("LF",robot.getLFencoder());
         //telemetry.addData("RF",robot.getRFencoder());
         telemetry.update();
 
-        //Set everything to zero when neither stick is in use
-        if (gamepad1.left_stick_y>-.1 && gamepad1.left_stick_y<.1 && gamepad1.left_stick_x>-.1
-                && gamepad1.left_stick_x<.1 && gamepad1.right_stick_x==0){
-            robot.rightBack.setPower(0);
+        /*if (gamepad1.right_stick_x == 0 && gamepad1.left_stick_y == 0 && gamepad1.left_stick_x == 0){
             robot.leftFront.setPower(0);
-            robot.rightFront.setPower(0);
             robot.leftBack.setPower(0);
-        }
-
-        //Speed control (turbo/slow mode)
+            robot.rightFront.setPower(0);
+            robot.rightBack.setPower(0);
+        }*/
+        //Speed control (turbo/slow mode) and direction of stick calculation
         if (gamepad1.left_bumper){
-            speed = Math.hypot(gamepad1.right_stick_x, gamepad1.right_stick_y);
-            direction = Math.atan2(gamepad1.right_stick_y, -gamepad1.right_stick_x) - Math.PI / 4;
+            driveSpeed = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
+            direction = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+            turnSpeed = gamepad1.right_stick_x;
         }else if (gamepad1.right_bumper){
-            speed = Math.hypot(gamepad1.right_stick_x, gamepad1.right_stick_y)*.4;
-            direction = Math.atan2(gamepad1.right_stick_y, -gamepad1.right_stick_x) - Math.PI / 4;
+            driveSpeed = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y)*.4;
+            direction = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+            turnSpeed = gamepad1.right_stick_x*.4;
         }else {
-            speed = Math.hypot(gamepad1.right_stick_x, gamepad1.right_stick_y)*.7;
-            direction = Math.atan2(gamepad1.right_stick_y, -gamepad1.right_stick_x) - Math.PI / 4;
+            driveSpeed = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y)*.7;
+            direction = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+            turnSpeed = gamepad1.right_stick_x*.7;
         }
         //set power and direction of drive motors
-        robot.MecanumController(speed,direction,0);
+        if (turnSpeed == 0){
+            robot.MecanumController(driveSpeed,direction,0);
+        }
+        //control of turning
+        if (gamepad1.right_stick_x != 0 && driveSpeed == 0){
+            robot.leftFront.setPower(turnSpeed);
+            robot.leftBack.setPower(turnSpeed);
+            robot.rightFront.setPower(-turnSpeed);
+            robot.rightBack.setPower(-turnSpeed);
+        }
 
         //Gripper control
         if (gamepad1.dpad_down){
@@ -100,8 +113,9 @@ public class MecanumControlV2 extends OpMode
             intake.intakeControl(IntakeDirection.OFF);
             isIntakeOn = false;
         }*/
-        intake.leftIntake.setPower(-gamepad2.left_stick_y);
-        intake.rightIntake.setPower(-gamepad2.left_stick_y);
+
+        //intake.leftIntake.setPower(-gamepad2.left_stick_y);
+        //intake.rightIntake.setPower(-gamepad2.left_stick_y);
 
         //control of the lift
         if (gamepad2.dpad_up){
@@ -170,7 +184,7 @@ public class MecanumControlV2 extends OpMode
         }*/
 
         //manual control of lift
-        if (gamepad2.y){
+        /*if (gamepad2.y){
             lift.liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             lift.liftDrive.setPower(-.8);
         }else if (gamepad2.x && lift.REVTouchBottom.getState()){
@@ -179,7 +193,7 @@ public class MecanumControlV2 extends OpMode
         }else {
             lift.liftDrive.setPower(0);
             lift.liftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
+        }*/
 
         //manual control of servos
         if (gamepad2.right_bumper){
