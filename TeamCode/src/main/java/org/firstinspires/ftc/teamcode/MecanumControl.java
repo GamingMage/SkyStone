@@ -49,7 +49,8 @@ public class MecanumControl extends OpMode
     @Override
     public void loop() {
         telemetry.addData("Place Height",placeHeight);
-        telemetry.addData("lift encoder",lift.getLiftEncoder());
+        telemetry.addData("Front lift encoder",lift.getFrontLiftEncoder());
+        telemetry.addData("Back lift encoder",lift.getBackLiftEncoder());
         telemetry.addData("touch sensor",lift.REVTouchBottom.getState());
         //telemetry.addData("LB",robot.getLBencoder());
         //telemetry.addData("RB",robot.getRBencoder());
@@ -228,14 +229,17 @@ public class MecanumControl extends OpMode
 
         //manual control of lift
         if (gamepad2.y){
-            lift.liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            lift.liftDrive.setPower(-.8);
+            lift.frontLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            lift.backLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            lift.liftPower(-.8);
         }else if (gamepad2.x && lift.REVTouchBottom.getState()){
-            lift.liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            lift.liftDrive.setPower(.8);
+            lift.frontLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            lift.backLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            lift.liftPower(.8);
         }else {
-            lift.liftDrive.setPower(0);
-            lift.liftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            lift.liftPower(0);
+            lift.frontLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            lift.backLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
         //manual control of servos

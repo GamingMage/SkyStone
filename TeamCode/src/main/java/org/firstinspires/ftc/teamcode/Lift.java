@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -16,7 +17,8 @@ public class Lift {
      * How to return enum from getLiftPosition
      *****************************************************/
 
-    public DcMotor liftDrive = null;
+    public DcMotor frontLift = null;
+    public DcMotor backLift  = null;
 
     HardwareMap hwMap        = null;
 
@@ -40,18 +42,23 @@ public class Lift {
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        liftDrive  = hwMap.get(DcMotor.class, "lift_drive");
+        frontLift  = hwMap.get(DcMotor.class, "frontLift");
+        backLift   = hwMap.get(DcMotor.class, "backLift");
 
         //Directions subject to change when motor facing is identified
-        liftDrive.setDirection(DcMotor.Direction.REVERSE);
+        frontLift.setDirection(DcMotor.Direction.REVERSE);
+        backLift.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power
-        liftDrive.setPower(0);
+        frontLift.setPower(0);
+        backLift.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        liftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        liftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // Define and initialize ALL installed sensors
         REVTouchBottom = hwMap.get(DigitalChannel.class, "Bottom_Touch");
@@ -59,16 +66,27 @@ public class Lift {
         // set the digital channel to input.
         REVTouchBottom.setMode(DigitalChannel.Mode.INPUT);
     }
+    //control the power of the lift motors
+    public void liftPower (double power){
+        frontLift.setPower(-power);
+        backLift.setPower(power);
+    }
     //send the lift down to its lowest height
     public void liftDown (double power) {
         // if the digital channel returns true it's HIGH and the button is unpressed.
         if (REVTouchBottom.getState()) {
-            liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            liftDrive.setPower(-power);//May need to be fixed for direction
+            frontLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            backLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            liftPower(-power);//May need to be fixed for direction
             while (REVTouchBottom.getState());
-            liftDrive.setPower(0);
-            liftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            liftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            liftPower(0);
+
+            frontLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            frontLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            backLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
     }
     //NOTE: ONE is ground level
@@ -79,64 +97,83 @@ public class Lift {
 
                 break;
             case INSIDE:
-                liftDrive.setTargetPosition(LEVEL_INSIDE);
-                liftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                liftDrive.setPower(SPEED);
-                while(liftDrive.isBusy());
-                liftDrive.setPower(0);
-                liftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                frontLift.setTargetPosition(LEVEL_INSIDE);
+                backLift.setTargetPosition(LEVEL_INSIDE);
+                frontLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftPower(SPEED);
+                while(frontLift.isBusy() && backLift.isBusy());
+                liftPower(0);
+                frontLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                backLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
                 break;
             case TWO:
-                liftDrive.setTargetPosition(LEVEL_TWO);
-                liftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                liftDrive.setPower(SPEED);
-                while(liftDrive.isBusy());
-                liftDrive.setPower(0);
-                liftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                frontLift.setTargetPosition(LEVEL_TWO);
+                backLift.setTargetPosition(LEVEL_TWO);
+                frontLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftPower(SPEED);
+                while(frontLift.isBusy() && backLift.isBusy());
+                liftPower(0);
+                frontLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                backLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
                 break;
             case THREE:
-                liftDrive.setTargetPosition(LEVEL_THREE);
-                liftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                liftDrive.setPower(SPEED);
-                while(liftDrive.isBusy());
-                liftDrive.setPower(0);
-                liftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                frontLift.setTargetPosition(LEVEL_THREE);
+                backLift.setTargetPosition(LEVEL_THREE);
+                frontLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftPower(SPEED);
+                while(frontLift.isBusy() && backLift.isBusy());
+                liftPower(0);
+                frontLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                backLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
                 break;
             case FOUR:
-                liftDrive.setTargetPosition(LEVEL_FOUR);
-                liftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                liftDrive.setPower(SPEED);
-                while(liftDrive.isBusy());
-                liftDrive.setPower(0);
-                liftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                frontLift.setTargetPosition(LEVEL_FOUR);
+                backLift.setTargetPosition(LEVEL_FOUR);
+                frontLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftPower(SPEED);
+                while(frontLift.isBusy() && backLift.isBusy());
+                liftPower(0);
+                frontLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                backLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
                 break;
             case FIVE:
-                liftDrive.setTargetPosition(LEVEL_FIVE);
-                liftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                liftDrive.setPower(SPEED);
-                while(liftDrive.isBusy());
-                liftDrive.setPower(0);
-                liftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                frontLift.setTargetPosition(LEVEL_FIVE);
+                backLift.setTargetPosition(LEVEL_FIVE);
+                frontLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftPower(SPEED);
+                while(frontLift.isBusy() && backLift.isBusy());
+                liftPower(0);
+                frontLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                backLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
                 break;
             case CAP:
-                liftDrive.setTargetPosition(LEVEL_CAP);
-                liftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                liftDrive.setPower(SPEED);
-                while(liftDrive.isBusy());
-                liftDrive.setPower(0);
-                liftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                frontLift.setTargetPosition(LEVEL_CAP);
+                backLift.setTargetPosition(LEVEL_CAP);
+                frontLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                backLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftPower(SPEED);
+                while(frontLift.isBusy() && backLift.isBusy());
+                liftPower(0);
+                frontLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                backLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
                 break;
         }
     }
-    public double getLiftEncoder(){return liftDrive.getCurrentPosition();}
+    public double getFrontLiftEncoder(){return frontLift.getCurrentPosition();}
+    public double getBackLiftEncoder(){return backLift.getCurrentPosition();}
     public int getLiftPosition() {
-        return Math.round(liftDrive.getCurrentPosition()/BLOCK_HEIGHT);
+        return Math.round(frontLift.getCurrentPosition()/BLOCK_HEIGHT);
     }
 
 }

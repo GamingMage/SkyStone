@@ -30,13 +30,13 @@ public class Placing {
         // Define and initialize ALL installed servos
         clawGrip = hwMap.get(Servo.class, "grip_servo");
         clawWrist = hwMap.get(Servo.class, "wrist_servo");
-        clawTurn = hwMap.get(Servo.class, "turn_servo");
+        //clawTurn = hwMap.get(Servo.class, "turn_servo");
 
         rPlateHook = hwMap.get(Servo.class, "right_hook");
         lPlateHook = hwMap.get(Servo.class, "left_hook");
 
         clawGrip.setPosition(0);
-        clawTurn.setPosition(.95);
+        //clawTurn.setPosition(.95);
 
         rPlateHook.setPosition(1);
         lPlateHook.setPosition(0);
@@ -72,7 +72,7 @@ public class Placing {
             while (1 > period.time() - runtime);
         }
     }
-    public void setClawTurn(ServoPosition position){
+    /*public void setClawTurn(ServoPosition position){
         //turn gripper over lift to get into placing position
         if (position == ServoPosition.TURN_OUT){
             clawTurn.setPosition(.2);
@@ -85,7 +85,7 @@ public class Placing {
             runtime = period.time();
             while (1 > period.time() - runtime);
         }
-    }
+    }*/
     public void setPlateHooks(ServoPosition position){
         //lower hooks onto plate so it can be moved
         if (position == ServoPosition.DOWN){

@@ -184,16 +184,19 @@ public class MecanumControlV2 extends OpMode
         }*/
 
         //manual control of lift
-        /*if (gamepad2.y){
-            lift.liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            lift.liftDrive.setPower(-.8);
+        if (gamepad2.y){
+            lift.frontLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            lift.backLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            lift.liftPower(-.8);
         }else if (gamepad2.x && lift.REVTouchBottom.getState()){
-            lift.liftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            lift.liftDrive.setPower(.8);
+            lift.frontLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            lift.backLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            lift.liftPower(.8);
         }else {
-            lift.liftDrive.setPower(0);
-            lift.liftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }*/
+            lift.liftPower(0);
+            lift.frontLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            lift.backLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
 
         //manual control of servos
         if (gamepad2.right_bumper){
@@ -202,12 +205,12 @@ public class MecanumControlV2 extends OpMode
         if (gamepad2.left_bumper){
             place.clawWrist.setPosition(.67);
         }
-        if (gamepad2.dpad_right){
+        /*if (gamepad2.dpad_right){
             place.clawTurn.setPosition(.975);
         }
         if (gamepad2.dpad_left){
             place.clawTurn.setPosition(.2);
-        }
+        }*/
         //control of plate hooks
         //down
         if (gamepad2.a){
