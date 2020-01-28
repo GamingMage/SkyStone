@@ -42,8 +42,8 @@ public class Lift {
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        frontLift  = hwMap.get(DcMotor.class, "frontLift");
-        backLift   = hwMap.get(DcMotor.class, "backLift");
+        frontLift  = hwMap.get(DcMotor.class, "front_lift");
+        backLift   = hwMap.get(DcMotor.class, "back_lift");
 
         //Directions subject to change when motor facing is identified
         frontLift.setDirection(DcMotor.Direction.REVERSE);

@@ -84,7 +84,7 @@ public class BlueStone extends OpMode {
             case 5:
                 //Move grabber into position
                 placing.setClawWrist(ServoPosition.UP);
-                placing.setClawTurn(ServoPosition.TURN_OUT);
+                //placing.setClawTurn(ServoPosition.TURN_OUT);
                 placing.setClawWrist(ServoPosition.DOWN);
                 stateMachineFlow++;
                 break;

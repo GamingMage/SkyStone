@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="Mecanum_Control_Simple", group="Testier")
+@TeleOp(name="Mecanum_Control_V2", group="Testier")
 
 public class MecanumControlV2 extends OpMode
 {
@@ -30,9 +30,9 @@ public class MecanumControlV2 extends OpMode
     @Override
     public void init() {
         robot.init(hardwareMap);
-        //place.init(hardwareMap);
+        place.init(hardwareMap);
         //intake.init(hardwareMap);
-        //lift.init(hardwareMap);
+        lift.init(hardwareMap);
 
         msStuckDetectInit = 18000;
         msStuckDetectLoop = 18000;
@@ -47,24 +47,21 @@ public class MecanumControlV2 extends OpMode
     }
     @Override
     public void loop() {
-        telemetry.addData("Place Height",placeHeight);
-        //telemetry.addData("lift encoder",lift.getLiftEncoder());
-        //telemetry.addData("touch sensor",lift.REVTouchBottom.getState());
-        telemetry.addData("Drive Speed",driveSpeed);
-        telemetry.addData("Direction",direction);
-        telemetry.addData("Turn Speed", turnSpeed);
+        //telemetry.addData("Place Height",placeHeight);
+        telemetry.addData("front lift",lift.getFrontLiftEncoder());
+        telemetry.addData("back lift",lift.getBackLiftEncoder());
+        telemetry.addData("arm",place.getArmEncoder());
+        telemetry.addData("lift touch",lift.REVTouchBottom.getState());
+        telemetry.addData("arm touch",place.REVTouchInside.getState());
+        //telemetry.addData("Drive Speed",driveSpeed);
+        //telemetry.addData("Direction",direction);
+        //telemetry.addData("Turn Speed", turnSpeed);
         //telemetry.addData("LB",robot.getLBencoder());
         //telemetry.addData("RB",robot.getRBencoder());
         //telemetry.addData("LF",robot.getLFencoder());
         //telemetry.addData("RF",robot.getRFencoder());
         telemetry.update();
-
-        /*if (gamepad1.right_stick_x == 0 && gamepad1.left_stick_y == 0 && gamepad1.left_stick_x == 0){
-            robot.leftFront.setPower(0);
-            robot.leftBack.setPower(0);
-            robot.rightFront.setPower(0);
-            robot.rightBack.setPower(0);
-        }*/
+        
         //Speed control (turbo/slow mode) and direction of stick calculation
         if (gamepad1.left_bumper){
             driveSpeed = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
@@ -158,31 +155,6 @@ public class MecanumControlV2 extends OpMode
             }
         }
 
-        //move the claw assembly into and out of scoring position
-        /*if (gamepad1.dpad_left){
-            robot.rightBack.setPower(0);
-            robot.leftFront.setPower(0);
-            robot.rightFront.setPower(0);
-            robot.leftBack.setPower(0);
-            place.setClawGrip(ServoPosition.DOWN);
-            lift.placeLevel(PlaceLevel.THREE);
-            place.setClawWrist(ServoPosition.UP);
-            place.setClawTurn(ServoPosition.TURN_OUT);
-            place.setClawWrist(ServoPosition.DOWN);
-        }
-        if (gamepad1.dpad_right){
-            robot.rightBack.setPower(0);
-            robot.leftFront.setPower(0);
-            robot.rightFront.setPower(0);
-            robot.leftBack.setPower(0);
-            place.setClawWrist(ServoPosition.UP);
-            lift.placeLevel(PlaceLevel.THREE);
-            place.setClawTurn(ServoPosition.TURN_IN);
-            place.setClawWrist(ServoPosition.DOWN);
-            place.setClawGrip(ServoPosition.UP);
-            lift.placeLevel(PlaceLevel.INSIDE);
-        }*/
-
         //manual control of lift
         if (gamepad2.y){
             lift.frontLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -198,6 +170,15 @@ public class MecanumControlV2 extends OpMode
             lift.backLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
+        //manual control of the arm
+        if (gamepad2.left_stick_y != 0 && place.REVTouchInside.getState()){
+            place.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            place.armMotor.setPower(-gamepad2.left_stick_y);
+        }if (gamepad2.left_stick_y == 0){
+            place.armMotor.setPower(0);
+            place.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+
         //manual control of servos
         if (gamepad2.right_bumper){
             place.clawWrist.setPosition(.25);
@@ -205,12 +186,6 @@ public class MecanumControlV2 extends OpMode
         if (gamepad2.left_bumper){
             place.clawWrist.setPosition(.67);
         }
-        /*if (gamepad2.dpad_right){
-            place.clawTurn.setPosition(.975);
-        }
-        if (gamepad2.dpad_left){
-            place.clawTurn.setPosition(.2);
-        }*/
         //control of plate hooks
         //down
         if (gamepad2.a){
