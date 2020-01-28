@@ -1,17 +1,23 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Placing {
 
-    //This class will contain the claw servos (wrist and grip) and the plate hook servos
-    //Methods will include an open/close grip and hooks, rotate wrist
+    //This class will contain anything having to do the foundation game element.
+    //this includes the claw servos (wrist and grip) and the plate hook servos and the arm motor
+    //Methods will include an open/close grip and hooks, rotate wrist, etc
 
     public Servo clawGrip   = null;
     public Servo clawWrist  = null;
-    public Servo clawTurn   = null;
+
+    public DcMotor armMotor = null;
+    DigitalChannel REVTouchInside;
 
     public Servo rPlateHook = null;
     public Servo lPlateHook = null;
@@ -30,13 +36,20 @@ public class Placing {
         // Define and initialize ALL installed servos
         clawGrip = hwMap.get(Servo.class, "grip_servo");
         clawWrist = hwMap.get(Servo.class, "wrist_servo");
-        //clawTurn = hwMap.get(Servo.class, "turn_servo");
+
+        armMotor = hwMap.get(DcMotor.class, "arm_drive");
+        armMotor.setDirection(DcMotor.Direction.REVERSE);
+        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        REVTouchInside = hwMap.get(DigitalChannel.class, "Inside_Touch");
+        REVTouchInside.setMode(DigitalChannel.Mode.INPUT);
 
         rPlateHook = hwMap.get(Servo.class, "right_hook");
         lPlateHook = hwMap.get(Servo.class, "left_hook");
 
         clawGrip.setPosition(0);
-        //clawTurn.setPosition(.95);
+        clawWrist.setPosition(0);
 
         rPlateHook.setPosition(1);
         lPlateHook.setPosition(0);
@@ -72,20 +85,6 @@ public class Placing {
             while (1 > period.time() - runtime);
         }
     }
-    /*public void setClawTurn(ServoPosition position){
-        //turn gripper over lift to get into placing position
-        if (position == ServoPosition.TURN_OUT){
-            clawTurn.setPosition(.2);
-            runtime = period.time();
-            while (1 > period.time() - runtime);
-        }
-        //turn gripper over lift to go back to collection position
-        if (position == ServoPosition.TURN_IN){
-            clawTurn.setPosition(.975);
-            runtime = period.time();
-            while (1 > period.time() - runtime);
-        }
-    }*/
     public void setPlateHooks(ServoPosition position){
         //lower hooks onto plate so it can be moved
         if (position == ServoPosition.DOWN){
@@ -101,5 +100,30 @@ public class Placing {
             runtime = period.time();
             while (1 > period.time() - runtime);
         }
+    }
+
+    //brings arm in to the touch sensor
+    public void armRecall(double power){
+        if (REVTouchInside.getState()){
+            armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            armMotor.setPower(-power);
+            while (REVTouchInside.getState());
+            armMotor.setPower(0);
+
+            armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+    }
+    public void armDrive(double speed, int encoderDistance){
+        armMotor.setTargetPosition(encoderDistance);
+        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armMotor.setPower(speed);
+        while (armMotor.isBusy());
+        armMotor.setPower(0);
+        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+    public double getArmEncoder(){
+        return armMotor.getCurrentPosition();
     }
 }
