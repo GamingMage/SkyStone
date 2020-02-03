@@ -17,7 +17,7 @@ public class Placing {
     public Servo clawWrist  = null;
 
     public DcMotor armMotor = null;
-    DigitalChannel REVTouchInside;
+    //DigitalChannel REVTouchInside;
 
     public Servo rPlateHook = null;
     public Servo lPlateHook = null;
@@ -42,14 +42,14 @@ public class Placing {
         armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        REVTouchInside = hwMap.get(DigitalChannel.class, "Inside_Touch");
-        REVTouchInside.setMode(DigitalChannel.Mode.INPUT);
+        //REVTouchInside = hwMap.get(DigitalChannel.class, "Inside_Touch");
+        //REVTouchInside.setMode(DigitalChannel.Mode.INPUT);
 
         rPlateHook = hwMap.get(Servo.class, "right_hook");
         lPlateHook = hwMap.get(Servo.class, "left_hook");
 
-        clawGrip.setPosition(0);
-        clawWrist.setPosition(0);
+        clawGrip.setPosition(.67);
+        clawWrist.setPosition(.32);
 
         rPlateHook.setPosition(1);
         lPlateHook.setPosition(0);
@@ -102,6 +102,7 @@ public class Placing {
         }
     }
 
+    /*
     //brings arm in to the touch sensor
     public void armRecall(double power){
         if (REVTouchInside.getState()){
@@ -115,6 +116,8 @@ public class Placing {
             armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
     }
+
+     */
     public void armDrive(double speed, int encoderDistance){
         armMotor.setTargetPosition(encoderDistance);
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

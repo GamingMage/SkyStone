@@ -61,10 +61,10 @@ public class Lift {
         backLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // Define and initialize ALL installed sensors
-        REVTouchBottom = hwMap.get(DigitalChannel.class, "Bottom_Touch");
+       // REVTouchBottom = hwMap.get(DigitalChannel.class, "Bottom_Touch");
 
         // set the digital channel to input.
-        REVTouchBottom.setMode(DigitalChannel.Mode.INPUT);
+       // REVTouchBottom.setMode(DigitalChannel.Mode.INPUT);
     }
     //control the power of the lift motors
     public void liftPower (double power){
