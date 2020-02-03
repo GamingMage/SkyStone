@@ -33,6 +33,7 @@ public class RedBuild extends OpMode{
         msStuckDetectLoop = 10000;
 
         robot.init(hardwareMap);
+        robot.initIMU(hardwareMap);
         intake.init(hardwareMap);
         lift.init(hardwareMap);
         placing.init(hardwareMap);
@@ -51,7 +52,7 @@ public class RedBuild extends OpMode{
                 break;
             case 1:
                 //Move left
-                robot.sideDrive(.55,-17);
+                robot.sideDrive(.55,-19);
                 stateMachineFlow++;
                 break;
             case 2:
@@ -65,16 +66,24 @@ public class RedBuild extends OpMode{
                 break;
             case 4:
                 //move the plate into the zone
-                robot.linearDrive(.4,34);
+                robot.linearDrive(.4,36);
                 stateMachineFlow++;
                 break;
             case 5:
-                placing.setPlateHooks(ServoPosition.UP);
+                robot.gStatTurn(.6,-90);
                 stateMachineFlow++;
                 break;
             case 6:
+                placing.setPlateHooks(ServoPosition.UP);
+                stateMachineFlow++;
+                break;
+            case 7:
                 //move under the bridge
-                robot.sideDrive(.6,47);
+                robot.linearDrive(.6,-5);
+                stateMachineFlow++;
+                break;
+            case 8:
+                robot.linearDrive(.6,40);
                 stateMachineFlow++;
                 break;
         }

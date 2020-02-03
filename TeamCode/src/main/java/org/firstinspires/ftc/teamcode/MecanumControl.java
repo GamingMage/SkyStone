@@ -51,7 +51,7 @@ public class MecanumControl extends OpMode
         telemetry.addData("Place Height",placeHeight);
         telemetry.addData("Front lift encoder",lift.getFrontLiftEncoder());
         telemetry.addData("Back lift encoder",lift.getBackLiftEncoder());
-        telemetry.addData("touch sensor",lift.REVTouchBottom.getState());
+        //telemetry.addData("touch sensor",lift.REVTouchBottom.getState());
         //telemetry.addData("LB",robot.getLBencoder());
         //telemetry.addData("RB",robot.getRBencoder());
         //telemetry.addData("LF",robot.getLFencoder());
@@ -249,13 +249,15 @@ public class MecanumControl extends OpMode
         if (gamepad2.left_bumper){
             place.clawWrist.setPosition(.67);
         }
-        if (gamepad2.dpad_right){
+       /* if (gamepad2.dpad_right){
             place.clawTurn.setPosition(.975);
         }
         if (gamepad2.dpad_left){
             place.clawTurn.setPosition(.2);
         }
         //control of plate hooks
+
+        */
         //down
         if (gamepad2.a){
             place.lPlateHook.setPosition(1);

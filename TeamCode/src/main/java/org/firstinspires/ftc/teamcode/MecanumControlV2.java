@@ -31,7 +31,7 @@ public class MecanumControlV2 extends OpMode
     public void init() {
         robot.init(hardwareMap);
         place.init(hardwareMap);
-        //intake.init(hardwareMap);
+        intake.init(hardwareMap);
         lift.init(hardwareMap);
 
         msStuckDetectInit = 18000;
@@ -51,8 +51,8 @@ public class MecanumControlV2 extends OpMode
         telemetry.addData("front lift",lift.getFrontLiftEncoder());
         telemetry.addData("back lift",lift.getBackLiftEncoder());
         telemetry.addData("arm",place.getArmEncoder());
-        telemetry.addData("lift touch",lift.REVTouchBottom.getState());
-        telemetry.addData("arm touch",place.REVTouchInside.getState());
+        //telemetry.addData("lift touch",lift.REVTouchBottom.getState());
+        //telemetry.addData("arm touch",place.REVTouchInside.getState());
         //telemetry.addData("Drive Speed",driveSpeed);
         //telemetry.addData("Direction",direction);
         //telemetry.addData("Turn Speed", turnSpeed);
@@ -61,7 +61,7 @@ public class MecanumControlV2 extends OpMode
         //telemetry.addData("LF",robot.getLFencoder());
         //telemetry.addData("RF",robot.getRFencoder());
         telemetry.update();
-        
+
         //Speed control (turbo/slow mode) and direction of stick calculation
         if (gamepad1.left_bumper){
             driveSpeed = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
@@ -90,9 +90,9 @@ public class MecanumControlV2 extends OpMode
 
         //Gripper control
         if (gamepad1.dpad_down){
-            place.clawGrip.setPosition(.7);
+            place.clawGrip.setPosition(.2);
         }if (gamepad1.dpad_up){
-            place.clawGrip.setPosition(0);
+            place.clawGrip.setPosition(.67);
         }
 
         //Intake Control
@@ -111,11 +111,11 @@ public class MecanumControlV2 extends OpMode
             isIntakeOn = false;
         }*/
 
-        //intake.leftIntake.setPower(-gamepad2.left_stick_y);
-        //intake.rightIntake.setPower(-gamepad2.left_stick_y);
+        intake.leftIntake.setPower(-gamepad2.left_stick_y);
+        intake.rightIntake.setPower(-gamepad2.left_stick_y);
 
         //control of the lift
-        if (gamepad2.dpad_up){
+        /*if (gamepad2.dpad_up){
             wasLevelIncreased = true;
         }else if (!gamepad2.dpad_up && wasLevelIncreased){
             placeHeight++;
@@ -153,14 +153,15 @@ public class MecanumControlV2 extends OpMode
             }else if (placeHeight == 6){
                 lift.placeLevel(PlaceLevel.CAP);
             }
-        }
+        }*/
 
         //manual control of lift
         if (gamepad2.y){
             lift.frontLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             lift.backLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             lift.liftPower(-.8);
-        }else if (gamepad2.x && lift.REVTouchBottom.getState()){
+//        }else if (gamepad2.x && lift.REVTouchBottom.getState()){
+        }else if (gamepad2.x){
             lift.frontLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             lift.backLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             lift.liftPower(.8);
@@ -171,20 +172,21 @@ public class MecanumControlV2 extends OpMode
         }
 
         //manual control of the arm
-        if (gamepad2.left_stick_y != 0 && place.REVTouchInside.getState()){
+/*        if (gamepad2.left_stick_y != 0 && place.REVTouchInside.getState()){*/
+        if (gamepad2.right_stick_y != 0){
             place.armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            place.armMotor.setPower(-gamepad2.left_stick_y);
-        }if (gamepad2.left_stick_y == 0){
+            place.armMotor.setPower(-gamepad2.right_stick_y*.7);
+        }if (gamepad2.right_stick_y == 0){
             place.armMotor.setPower(0);
             place.armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
-        //manual control of servos
-        if (gamepad2.right_bumper){
-            place.clawWrist.setPosition(.25);
+        //control of wrist
+        if (gamepad2.dpad_right){
+            place.clawWrist.setPosition(.32);
         }
-        if (gamepad2.left_bumper){
-            place.clawWrist.setPosition(.67);
+        if (gamepad2.dpad_left){
+            place.clawWrist.setPosition(.82);
         }
         //control of plate hooks
         //down
