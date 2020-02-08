@@ -29,10 +29,6 @@ public class MoveLeft extends OpMode{
         msStuckDetectLoop = 25000;
 
         robot.init(hardwareMap);
-        //intake.init(hardwareMap);
-        //lift.init(hardwareMap);
-        //placing.init(hardwareMap);
-        //cam.init(hardwareMap);
 
         stateMachineFlow = 0;
     }
@@ -47,7 +43,7 @@ public class MoveLeft extends OpMode{
                 break;
             case 1:
                 //move under the bridge
-                robot.sideDrive(.65,-25);
+                robot.sideDrive(.45,-25);
                 telemetry.addData("Rf",robot.getRFencoder());
                 telemetry.addData("Lf",robot.getLFencoder());
                 telemetry.addData("Rb",robot.getRBencoder());

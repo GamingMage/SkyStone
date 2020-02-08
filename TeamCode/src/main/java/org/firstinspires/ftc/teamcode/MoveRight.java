@@ -46,7 +46,7 @@ public class MoveRight extends OpMode{
                 break;
             case 1:
                 //move under the bridge
-                robot.sideDrive(.65,25);
+                robot.sideDrive(.45,25);
                 stateMachineFlow++;
                 break;
         }

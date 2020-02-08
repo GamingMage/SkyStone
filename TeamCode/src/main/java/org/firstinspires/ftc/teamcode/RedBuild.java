@@ -52,7 +52,7 @@ public class RedBuild extends OpMode{
                 break;
             case 1:
                 //Move left
-                robot.sideDrive(.55,-19);
+                robot.sideDrive(.45,-21);
                 stateMachineFlow++;
                 break;
             case 2:
@@ -78,11 +78,11 @@ public class RedBuild extends OpMode{
                 stateMachineFlow++;
                 break;
             case 7:
-                //move under the bridge
-                robot.linearDrive(.6,-5);
+                robot.linearDrive(.75,-15);
                 stateMachineFlow++;
                 break;
             case 8:
+                //move under the bridge
                 robot.linearDrive(.6,40);
                 stateMachineFlow++;
                 break;
