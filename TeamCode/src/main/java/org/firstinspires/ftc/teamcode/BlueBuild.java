@@ -33,6 +33,7 @@ public class BlueBuild extends OpMode{
         msStuckDetectLoop = 10000;
 
         robot.init(hardwareMap);
+        robot.initIMU(hardwareMap);
         intake.init(hardwareMap);
         lift.init(hardwareMap);
         placing.init(hardwareMap);
@@ -55,7 +56,7 @@ public class BlueBuild extends OpMode{
                 break;
             case 2:
                 //Move right
-                robot.sideDrive(.65,22);
+                robot.sideDrive(.45,22);
                 stateMachineFlow++;
                 break;
             case 3:
@@ -73,12 +74,20 @@ public class BlueBuild extends OpMode{
                 stateMachineFlow++;
                 break;
             case 6:
-                placing.setPlateHooks(ServoPosition.UP);
+                robot.gStatTurn(.6,90);
                 stateMachineFlow++;
                 break;
             case 7:
+                placing.setPlateHooks(ServoPosition.UP);
+                stateMachineFlow++;
+                break;
+            case 8:
+                robot.linearDrive(.75,-15);
+                stateMachineFlow++;
+                break;
+            case 9:
                 //move under the bridge
-                robot.sideDrive(.6,-47);
+                robot.linearDrive(.6,40);
                 stateMachineFlow++;
                 break;
         }

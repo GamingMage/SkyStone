@@ -78,7 +78,7 @@ public class MecanumControlV2 extends OpMode
         }
         //set power and direction of drive motors
         if (turnSpeed == 0){
-            robot.MecanumController(driveSpeed,direction,0);
+            robot.MecanumController(driveSpeed,-direction,0);
         }
         //control of turning
         if (gamepad1.right_stick_x != 0 && driveSpeed == 0){
