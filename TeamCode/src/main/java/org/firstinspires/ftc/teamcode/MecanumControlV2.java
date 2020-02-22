@@ -14,6 +14,7 @@ public class MecanumControlV2 extends OpMode
     Placing      place  = new Placing();
     Intake       intake = new Intake();
     Lift         lift   = new Lift();
+    FindStone    stone  = new FindStone();
 
     double driveSpeed;
     double turnSpeed;
@@ -33,6 +34,7 @@ public class MecanumControlV2 extends OpMode
         place.init(hardwareMap);
         intake.init(hardwareMap);
         lift.init(hardwareMap);
+        stone.init(hardwareMap);
 
         msStuckDetectInit = 18000;
         msStuckDetectLoop = 18000;
@@ -48,9 +50,15 @@ public class MecanumControlV2 extends OpMode
     @Override
     public void loop() {
         //telemetry.addData("Place Height",placeHeight);
-        telemetry.addData("front lift",lift.getFrontLiftEncoder());
-        telemetry.addData("back lift",lift.getBackLiftEncoder());
-        telemetry.addData("arm",place.getArmEncoder());
+        //telemetry.addData("front lift",lift.getFrontLiftEncoder());
+        //telemetry.addData("back lift",lift.getBackLiftEncoder());
+        //telemetry.addData("arm",place.getArmEncoder());
+        telemetry.addData("lRed",stone.lGetRedVal());
+        telemetry.addData("lGreen",stone.lGetGreenVal());
+        telemetry.addData("lBlue",stone.lGetBlueVal());
+        telemetry.addData("rRed",stone.rGetRedVal());
+        telemetry.addData("rGreen",stone.rGetGreenVal());
+        telemetry.addData("rBlue",stone.rGetBlueVal());
         //telemetry.addData("lift touch",lift.REVTouchBottom.getState());
         //telemetry.addData("arm touch",place.REVTouchInside.getState());
         //telemetry.addData("Drive Speed",driveSpeed);
@@ -64,21 +72,21 @@ public class MecanumControlV2 extends OpMode
 
         //Speed control (turbo/slow mode) and direction of stick calculation
         if (gamepad1.left_bumper){
-            driveSpeed = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
-            direction = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+            driveSpeed = Math.hypot(-gamepad1.left_stick_x, -gamepad1.left_stick_y);
+            direction = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
             turnSpeed = gamepad1.right_stick_x;
         }else if (gamepad1.right_bumper){
-            driveSpeed = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y)*.4;
-            direction = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+            driveSpeed = Math.hypot(-gamepad1.left_stick_x, -gamepad1.left_stick_y)*.4;
+            direction = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
             turnSpeed = gamepad1.right_stick_x*.4;
         }else {
-            driveSpeed = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y)*.7;
-            direction = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+            driveSpeed = Math.hypot(-gamepad1.left_stick_x, -gamepad1.left_stick_y)*.7;
+            direction = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
             turnSpeed = gamepad1.right_stick_x*.7;
         }
         //set power and direction of drive motors
         if (turnSpeed == 0){
-            robot.MecanumController(driveSpeed,-direction,0);
+            robot.MecanumController(driveSpeed,direction,0);
         }
         //control of turning
         if (gamepad1.right_stick_x != 0 && driveSpeed == 0){
