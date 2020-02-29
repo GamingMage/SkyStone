@@ -91,14 +91,14 @@ public class Placing {
             rPlateHook.setPosition(0);
             lPlateHook.setPosition(1);
             runtime = period.time();
-            while (1 > period.time() - runtime);
+            while (.6 > period.time() - runtime);
         }
         //raise hooks off plate
         if (position == ServoPosition.UP){
             rPlateHook.setPosition(1);
             lPlateHook.setPosition(0);
             runtime = period.time();
-            while (1 > period.time() - runtime);
+            while (.6 > period.time() - runtime);
         }
     }
 

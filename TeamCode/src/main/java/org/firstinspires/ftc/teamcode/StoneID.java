@@ -5,5 +5,8 @@ public enum StoneID {
     STONE,
     UNKNOWN,
     LEFT,
-    RIGHT;
+    RIGHT,
+    ONE,
+    TWO,
+    THREE;
 }

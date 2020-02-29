@@ -50,15 +50,15 @@ public class MecanumControlV2 extends OpMode
     @Override
     public void loop() {
         //telemetry.addData("Place Height",placeHeight);
-        //telemetry.addData("front lift",lift.getFrontLiftEncoder());
-        //telemetry.addData("back lift",lift.getBackLiftEncoder());
-        //telemetry.addData("arm",place.getArmEncoder());
-        telemetry.addData("lRed",stone.lGetRedVal());
-        telemetry.addData("lGreen",stone.lGetGreenVal());
-        telemetry.addData("lBlue",stone.lGetBlueVal());
-        telemetry.addData("rRed",stone.rGetRedVal());
-        telemetry.addData("rGreen",stone.rGetGreenVal());
-        telemetry.addData("rBlue",stone.rGetBlueVal());
+        telemetry.addData("front lift",lift.getFrontLiftEncoder());
+        telemetry.addData("back lift",lift.getBackLiftEncoder());
+        telemetry.addData("arm",place.getArmEncoder());
+        //telemetry.addData("lRed",stone.lGetRedVal());
+        //telemetry.addData("lGreen",stone.lGetGreenVal());
+        //telemetry.addData("lBlue",stone.lGetBlueVal());
+        //telemetry.addData("rRed",stone.rGetRedVal());
+        //telemetry.addData("rGreen",stone.rGetGreenVal());
+        //telemetry.addData("rBlue",stone.rGetBlueVal());
         //telemetry.addData("lift touch",lift.REVTouchBottom.getState());
         //telemetry.addData("arm touch",place.REVTouchInside.getState());
         //telemetry.addData("Drive Speed",driveSpeed);
@@ -97,9 +97,9 @@ public class MecanumControlV2 extends OpMode
         }
 
         //Gripper control
-        if (gamepad1.dpad_down){
+        if (gamepad2.dpad_down){
             place.clawGrip.setPosition(.2);
-        }if (gamepad1.dpad_up){
+        }if (gamepad2.dpad_up){
             place.clawGrip.setPosition(.67);
         }
 
@@ -198,12 +198,12 @@ public class MecanumControlV2 extends OpMode
         }
         //control of plate hooks
         //down
-        if (gamepad2.a){
+        if (gamepad1.a){
             place.lPlateHook.setPosition(1);
             place.rPlateHook.setPosition(0);
         }
         //up
-        if (gamepad2.b){
+        if (gamepad1.b){
             place.lPlateHook.setPosition(0);
             place.rPlateHook.setPosition(1);
         }
