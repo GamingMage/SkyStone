@@ -12,6 +12,14 @@ public class FindStone {
     int green;
     int blue;
 
+    int fred;
+    int fgreen;
+    int fblue;
+
+    int bred;
+    int bgreen;
+    int bblue;
+
     HardwareMap hwMap           = null;
 
     public FindStone(){
@@ -45,9 +53,9 @@ public class FindStone {
             blue  = lColorSensor.blue();
         }else if (sensorSide == StoneID.RIGHT){
             rColorSensor.enableLed(true);
-            red   = lColorSensor.red();
-            green = lColorSensor.green();
-            blue  = lColorSensor.blue();
+            red   = rColorSensor.red();
+            green = rColorSensor.green();
+            blue  = rColorSensor.blue();
         }
 
         if (red < 10 && green < 10) {
@@ -63,6 +71,23 @@ public class FindStone {
             rColorSensor.enableLed(false);
             return StoneID.UNKNOWN;
         }
+    }
+    public StoneID SkystoneTest() {
+        lColorSensor.enableLed(true);
+        rColorSensor.enableLed(true);
+        fgreen = lColorSensor.green();
+        bgreen = rColorSensor.green();
+
+        if (Math.abs(fgreen - bgreen) > 50){
+            if (fgreen < bgreen){
+                return StoneID.ONE;
+            }else if (fgreen > bgreen){
+                return StoneID.TWO;
+            }
+        }else if (Math.abs(fgreen - bgreen) < 50){
+            return StoneID.THREE;
+        }
+        return StoneID.UNKNOWN;
     }
     public int lGetRedVal(){
         return lColorSensor.red();
