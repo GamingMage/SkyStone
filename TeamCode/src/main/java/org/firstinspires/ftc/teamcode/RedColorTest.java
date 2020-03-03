@@ -52,7 +52,7 @@ public class RedColorTest extends OpMode{
                 stateMachineFlow++;
                 break;
             case 1:
-                robot.sideDrive(.6,24);
+                robot.sideDrive(.45,28);
                 stateMachineFlow++;
                 break;
             case 2:
@@ -62,33 +62,38 @@ public class RedColorTest extends OpMode{
                     telemetry.addData("Stone Position","One");
                     telemetry.update();
                 }else if (stonePosition == StoneID.TWO){
-                    robot.linearDrive(.6,14);
+                    robot.linearDrive(.6,12);
                     telemetry.addData("Stone Position","Two");
                     telemetry.update();
                 }else if (stonePosition == StoneID.THREE){
-                    robot.linearDrive(.6,20);
+                    robot.linearDrive(.6,18);
                     telemetry.addData("Stone Position","Three");
                     telemetry.update();
                 }
                 stateMachineFlow++;
                 break;
             case 3:
-                robot.sideDrive(.5,8);
+                robot.sideAllDrive(.45,20);
                 stateMachineFlow++;
                 break;
             case 4:
-                intake.intakeControl(IntakeDirection.IN);
+                intake.leftIntake.setPower(1);
+                intake.rightIntake.setPower(1);
+                time = runtime.time();
+                while (.6 > runtime.time() - time);
                 lift.liftPower(-.6);
                 stateMachineFlow++;
                 break;
             case 5:
-                robot.linearDrive(.4,10);
+                robot.linearDrive(.35,8);
                 lift.liftPower(.4);
                 stateMachineFlow++;
                 break;
             case 6:
+                intake.leftIntake.setPower(0);
+                intake.rightIntake.setPower(0);
                 lift.liftPower(0);
-                robot.sideDrive(.5,-10);
+                robot.sideDrive(.45,-10);
                 stateMachineFlow++;
                 break;
             case 7:
@@ -102,7 +107,7 @@ public class RedColorTest extends OpMode{
                 stateMachineFlow++;
                 break;
             case 8:
-                robot.sideDrive(.5,-6);
+                robot.sideDrive(.45,-6);
                 stateMachineFlow++;
                 break;
             case 9:
@@ -135,11 +140,11 @@ public class RedColorTest extends OpMode{
                 stateMachineFlow++;
                 break;
             case 16:
-                lift.liftPower(-.6);
+                lift.liftPower(-.5);
                 stateMachineFlow++;
                 break;
             case 17:
-                placing.armMotor.setPower(.6);
+                placing.armMotor.setPower(.5);
                 stateMachineFlow++;
                 break;
             case 18:

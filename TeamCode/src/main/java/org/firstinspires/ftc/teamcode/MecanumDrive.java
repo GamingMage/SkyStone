@@ -261,10 +261,11 @@ public class MecanumDrive {
     }
 
     public void sideDrive(double speed, double distance) {
-        //positive speed moves right and negative moves left
-        //negative distance = left(?)
-        //sideEncoderDrive(speed,distance);
+        //negative distance = left
         oneSideEncoderDrive(speed,distance);
+    }
+    public void sideAllDrive(double speed, double distance){
+        sideEncoderDrive(speed,distance);
     }
     void sideEncoderDrive(double speed,
                       double distance) {
