@@ -52,7 +52,7 @@ public class RedColorTest extends OpMode{
                 stateMachineFlow++;
                 break;
             case 1:
-                robot.sideDrive(.45,28);
+                robot.sideAllDrive(.45,30);
                 stateMachineFlow++;
                 break;
             case 2:
@@ -60,40 +60,44 @@ public class RedColorTest extends OpMode{
                 if (stonePosition == StoneID.ONE){
                     robot.linearDrive(.6,5);
                     telemetry.addData("Stone Position","One");
-                    telemetry.update();
                 }else if (stonePosition == StoneID.TWO){
                     robot.linearDrive(.6,12);
                     telemetry.addData("Stone Position","Two");
-                    telemetry.update();
                 }else if (stonePosition == StoneID.THREE){
                     robot.linearDrive(.6,18);
                     telemetry.addData("Stone Position","Three");
-                    telemetry.update();
                 }
+                telemetry.addData("front green",color.fgreen);
+                telemetry.addData("back green",color.bgreen);
+                telemetry.update();
                 stateMachineFlow++;
                 break;
             case 3:
-                robot.sideAllDrive(.45,20);
+                robot.sideAllDrive(.45,18);
                 stateMachineFlow++;
                 break;
             case 4:
-                intake.leftIntake.setPower(1);
-                intake.rightIntake.setPower(1);
+                intake.intakeControl(IntakeDirection.IN);
+                //intake.leftIntake.setPower(1);
+                //intake.rightIntake.setPower(1);
+                telemetry.addData("Starting Intake","True");
+                telemetry.update();
                 time = runtime.time();
-                while (.6 > runtime.time() - time);
-                lift.liftPower(-.6);
+                while (1 > runtime.time() - time);
+                //lift.liftPower(-.6);
                 stateMachineFlow++;
                 break;
             case 5:
-                robot.linearDrive(.35,8);
-                lift.liftPower(.4);
+                robot.linearDrive(.4,6);
+                //lift.liftPower(.4);
                 stateMachineFlow++;
                 break;
             case 6:
-                intake.leftIntake.setPower(0);
-                intake.rightIntake.setPower(0);
-                lift.liftPower(0);
-                robot.sideDrive(.45,-10);
+                intake.intakeControl(IntakeDirection.OFF);
+                //intake.leftIntake.setPower(0);
+                //intake.rightIntake.setPower(0);
+                //lift.liftPower(0);
+                robot.sideAllDrive(.45,-18);
                 stateMachineFlow++;
                 break;
             case 7:

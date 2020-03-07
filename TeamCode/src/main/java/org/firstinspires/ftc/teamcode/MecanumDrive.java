@@ -57,6 +57,11 @@ public class MecanumDrive {
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
 
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         // Set all motors to zero power
         leftBack.setPower(0);
         rightBack.setPower(0);
@@ -328,15 +333,21 @@ public class MecanumDrive {
         int newLFTarget;
         //int newRFTarget;
 
-        //leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        // Turn On RUN_TO_POSITION
+        //leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Determine new target position, and pass to motor controller
         //newLBTarget = leftBack.getCurrentPosition() + (int) (-distance * COUNTS_PER_INCH);
@@ -347,12 +358,6 @@ public class MecanumDrive {
         //rightBack.setTargetPosition(newRBTarget);
         leftFront.setTargetPosition(newLFTarget);
         //rightFront.setTargetPosition(newRFTarget);
-
-        // Turn On RUN_TO_POSITION
-        //leftBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //rightBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // start motion.
         if (distance > 0){

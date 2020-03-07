@@ -57,7 +57,7 @@ public class RedBuild extends OpMode{
                 break;
             case 2:
                 //Back up to the foundation
-                robot.linearDrive(.5, -30);
+                robot.linearDrive(.5, -31);
                 stateMachineFlow++;
                 break;
             case 3:
@@ -66,7 +66,7 @@ public class RedBuild extends OpMode{
                 break;
             case 4:
                 //move the plate into the zone
-                robot.linearDrive(.4,36);
+                robot.linearDrive(.4,27);
                 stateMachineFlow++;
                 break;
             case 5:
@@ -78,12 +78,20 @@ public class RedBuild extends OpMode{
                 stateMachineFlow++;
                 break;
             case 7:
-                robot.linearDrive(.75,-15);
+                robot.linearDrive(.5,-8);
                 stateMachineFlow++;
                 break;
             case 8:
+                robot.linearDrive(.45,5);
+                stateMachineFlow++;
+                break;
+            case 9:
+                robot.sideDrive(.5,-6);
+                stateMachineFlow++;
+                break;
+            case 10:
                 //move under the bridge
-                robot.linearDrive(.6,40);
+                robot.linearDrive(.6,35);
                 stateMachineFlow++;
                 break;
         }
