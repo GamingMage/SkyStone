@@ -49,6 +49,9 @@ public class Lift {
         frontLift.setDirection(DcMotor.Direction.REVERSE);
         backLift.setDirection(DcMotor.Direction.REVERSE);
 
+        frontLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         // Set all motors to zero power
         frontLift.setPower(0);
         backLift.setPower(0);
@@ -61,10 +64,10 @@ public class Lift {
         backLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         // Define and initialize ALL installed sensors
-       // REVTouchBottom = hwMap.get(DigitalChannel.class, "Bottom_Touch");
+        REVTouchBottom = hwMap.get(DigitalChannel.class, "Bottom_Touch");
 
         // set the digital channel to input.
-       // REVTouchBottom.setMode(DigitalChannel.Mode.INPUT);
+        REVTouchBottom.setMode(DigitalChannel.Mode.INPUT);
     }
     //control the power of the lift motors
     public void liftPower (double power){
@@ -78,7 +81,7 @@ public class Lift {
             frontLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             backLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-            liftPower(-power);//May need to be fixed for direction
+            liftPower(power);//May need to be fixed for direction
             while (REVTouchBottom.getState());
             liftPower(0);
 

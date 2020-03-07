@@ -53,6 +53,7 @@ public class MecanumControlV2 extends OpMode
         telemetry.addData("front lift",lift.getFrontLiftEncoder());
         telemetry.addData("back lift",lift.getBackLiftEncoder());
         telemetry.addData("arm",place.getArmEncoder());
+        telemetry.addData("Touch",lift.REVTouchBottom.getState());
         //telemetry.addData("lRed",stone.lGetRedVal());
         //telemetry.addData("lGreen",stone.lGetGreenVal());
         //telemetry.addData("lBlue",stone.lGetBlueVal());
@@ -169,7 +170,7 @@ public class MecanumControlV2 extends OpMode
             lift.backLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             lift.liftPower(-.8);
 //        }else if (gamepad2.x && lift.REVTouchBottom.getState()){
-        }else if (gamepad2.x){
+        }else if (gamepad2.x && lift.REVTouchBottom.getState()){
             lift.frontLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             lift.backLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             lift.liftPower(.8);
