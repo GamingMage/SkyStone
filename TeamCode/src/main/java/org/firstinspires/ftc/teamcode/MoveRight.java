@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 //@Disabled
-@Autonomous(name="Move: Right", group="Test")
+@Autonomous(name="Move: Right", group="Move")
 public class MoveRight extends OpMode{
 
     private int stateMachineFlow;

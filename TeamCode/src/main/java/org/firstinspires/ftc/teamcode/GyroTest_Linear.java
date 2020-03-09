@@ -47,7 +47,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  */
 
 @Autonomous(name="Pushbot: Auto Drive By Gyro", group="Pushbot")
-//@Disabled
+@Disabled
 public class GyroTest_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */

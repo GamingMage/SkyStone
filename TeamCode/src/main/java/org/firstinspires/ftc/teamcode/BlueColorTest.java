@@ -1,14 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Red: Color Test", group="Color")
-public class RedColorTest extends OpMode{
+@Autonomous(name="Blue: Color Test", group="Color")
+public class BlueColorTest extends OpMode{
 
     private int stateMachineFlow;
     MecanumDrive robot = new MecanumDrive();
@@ -37,8 +35,8 @@ public class RedColorTest extends OpMode{
         placing.init(hardwareMap);
         color.init(hardwareMap);
 
-        color.rfColorLED(true);
-        color.rbColorLED(true);
+        color.lfColorLED(true);
+        color.lbColorLED(true);
 
         stateMachineFlow = 0;
     }
@@ -52,11 +50,11 @@ public class RedColorTest extends OpMode{
                 stateMachineFlow++;
                 break;
             case 1:
-                robot.sideAllDrive(.45,30);
+                robot.sideAllDrive(.45,-30);
                 stateMachineFlow++;
                 break;
             case 2:
-                stonePosition = color.rightSkystoneTest();
+                stonePosition = color.leftSkystoneTest();
                 if (stonePosition == StoneID.ONE){
                     robot.linearDrive(.6,5);
                     telemetry.addData("Stone Position","One");
@@ -67,21 +65,23 @@ public class RedColorTest extends OpMode{
                     robot.linearDrive(.6,18);
                     telemetry.addData("Stone Position","Three");
                 }
-                telemetry.addData("front green",color.rfgreen);
-                telemetry.addData("back green",color.rbgreen);
+                telemetry.addData("front green",color.lfgreen);
+                telemetry.addData("back green",color.lbgreen);
                 telemetry.update();
-                color.rfColorLED(false);
-                color.rbColorLED(false);
+                color.lfColorLED(false);
+                color.lbColorLED(false);
                 stateMachineFlow++;
                 break;
             case 3:
-                robot.sideAllDrive(.45,18);
+                robot.sideAllDrive(.45,-18);
                 stateMachineFlow++;
                 break;
             case 4:
                 intake.intakeControl(IntakeDirection.IN);
                 //intake.leftIntake.setPower(1);
                 //intake.rightIntake.setPower(1);
+                telemetry.addData("Starting Intake","True");
+                telemetry.update();
                 //time = runtime.time();
                 //while (1 > runtime.time() - time);
                 lift.placeLevel(PlaceLevel.THREE);
@@ -99,7 +99,7 @@ public class RedColorTest extends OpMode{
                 stateMachineFlow++;
                 break;
             case 7:
-                robot.sideAllDrive(.45,-18);
+                robot.sideAllDrive(.45,18);
                 stateMachineFlow++;
                 break;
             case 8:
@@ -113,11 +113,11 @@ public class RedColorTest extends OpMode{
                 stateMachineFlow++;
                 break;
             case 9:
-                robot.sideAllDrive(.45,-6);
+                robot.sideAllDrive(.45,6);
                 stateMachineFlow++;
                 break;
             case 10:
-                robot.gStatTurn(.6,NINETY_DEGREES);
+                robot.gStatTurn(.6,-NINETY_DEGREES);
                 stateMachineFlow++;
                 break;
             case 11:
@@ -134,7 +134,7 @@ public class RedColorTest extends OpMode{
                 stateMachineFlow++;
                 break;
             case 14:
-                robot.gStatTurn(.6,-NINETY_DEGREES);
+                robot.gStatTurn(.6,NINETY_DEGREES);
                 stateMachineFlow++;
                 break;
             case 15:

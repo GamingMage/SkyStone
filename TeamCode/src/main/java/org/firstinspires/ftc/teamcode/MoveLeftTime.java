@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 
 //@Disabled
-@Autonomous(name="Move: Left w/ Timer", group="Test")
+@Autonomous(name="Move: Left w/ Timer", group="Move")
 public class MoveLeftTime extends OpMode{
 
     private int stateMachineFlow;
