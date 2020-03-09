@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name="SkystoneCamTest", group="Test")
-
+@Disabled
 public class SkystoneCamTest extends OpMode {
     SkystoneCam cam    = new SkystoneCam();
 

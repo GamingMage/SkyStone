@@ -32,14 +32,14 @@ public class Intake {
     //Power directions subject to change depending on how servos move when giving positive or negative powers
     public void intakeControl(IntakeDirection direction){
         if (direction == IntakeDirection.IN){
-            leftIntake.setPower(1);
-            rightIntake.setPower(1);
+            leftIntake.setPower(1d);
+            rightIntake.setPower(1d);
         }if (direction == IntakeDirection.OUT){
-            leftIntake.setPower(-1);
-            rightIntake.setPower(-1);
+            leftIntake.setPower(-1d);
+            rightIntake.setPower(-1d);
         }if (direction == IntakeDirection.OFF){
-            leftIntake.setPower(0);
-            rightIntake.setPower(0);
+            leftIntake.setPower(0d);
+            rightIntake.setPower(0d);
         }
     }
 }

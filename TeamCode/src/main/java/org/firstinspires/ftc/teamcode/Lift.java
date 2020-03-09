@@ -96,7 +96,7 @@ public class Lift {
     public void placeLevel (PlaceLevel level) {
         switch (level){
             case ONE:
-                liftDown(SPEED);
+                liftDown(-SPEED);
 
                 break;
             case INSIDE:
