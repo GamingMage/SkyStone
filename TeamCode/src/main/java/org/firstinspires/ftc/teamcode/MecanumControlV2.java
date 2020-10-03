@@ -12,18 +12,10 @@ public class MecanumControlV2 extends OpMode
 
     MecanumDrive robot  = new MecanumDrive();
     Placing      place  = new Placing();
-    Intake       intake = new Intake();
-    Lift         lift   = new Lift();
-    FindStone    stone  = new FindStone();
 
     double driveSpeed;
     double turnSpeed;
     double direction;
-
-    private int placeHeight;
-    private boolean isIntakeOn;
-    private boolean wasLevelIncreased;
-    private boolean wasLevelDecreased;
 
     private ElapsedTime period  = new ElapsedTime();
     private double runtime = 0;
@@ -32,16 +24,9 @@ public class MecanumControlV2 extends OpMode
     public void init() {
         robot.init(hardwareMap);
         place.init(hardwareMap);
-        intake.init(hardwareMap);
-        lift.init(hardwareMap);
-        stone.init(hardwareMap);
 
         msStuckDetectInit = 18000;
         msStuckDetectLoop = 18000;
-        placeHeight = 0;
-        wasLevelIncreased = false;
-        wasLevelDecreased = false;
-        isIntakeOn = false;
 
         telemetry.addData("Hello","be ready");
         telemetry.addData("Loop_Timeout",msStuckDetectLoop);
@@ -49,19 +34,6 @@ public class MecanumControlV2 extends OpMode
     }
     @Override
     public void loop() {
-        //telemetry.addData("Place Height",placeHeight);
-        telemetry.addData("front lift",lift.getFrontLiftEncoder());
-        telemetry.addData("back lift",lift.getBackLiftEncoder());
-        telemetry.addData("arm",place.getArmEncoder());
-        telemetry.addData("Touch",lift.REVTouchBottom.getState());
-        //telemetry.addData("lRed",stone.lGetRedVal());
-        //telemetry.addData("lGreen",stone.lGetGreenVal());
-        //telemetry.addData("lBlue",stone.lGetBlueVal());
-        //telemetry.addData("rRed",stone.rGetRedVal());
-        //telemetry.addData("rGreen",stone.rGetGreenVal());
-        //telemetry.addData("rBlue",stone.rGetBlueVal());
-        //telemetry.addData("lift touch",lift.REVTouchBottom.getState());
-        //telemetry.addData("arm touch",place.REVTouchInside.getState());
         //telemetry.addData("Drive Speed",driveSpeed);
         //telemetry.addData("Direction",direction);
         //telemetry.addData("Turn Speed", turnSpeed);
@@ -102,82 +74,6 @@ public class MecanumControlV2 extends OpMode
             place.clawGrip.setPosition(.2);
         }if (gamepad2.dpad_up){
             place.clawGrip.setPosition(.67);
-        }
-
-        //Intake Control
-        /*if (gamepad1.right_trigger > 0 && !isIntakeOn && gamepad1.left_trigger == 0){
-            intake.intakeControl(IntakeDirection.IN);
-            isIntakeOn = true;
-        }else if (gamepad1.right_trigger == 0 && isIntakeOn){
-            intake.intakeControl(IntakeDirection.OFF);
-            isIntakeOn = false;
-        }
-        if (gamepad1.left_trigger > 0 && !isIntakeOn && gamepad1.right_trigger == 0){
-            intake.intakeControl(IntakeDirection.OUT);
-            isIntakeOn = true;
-        }else if (gamepad1.left_trigger == 0 && isIntakeOn){
-            intake.intakeControl(IntakeDirection.OFF);
-            isIntakeOn = false;
-        }*/
-
-        intake.leftIntake.setPower(-gamepad2.left_stick_y);
-        intake.rightIntake.setPower(-gamepad2.left_stick_y);
-
-        //control of the lift
-        /*if (gamepad2.dpad_up){
-            wasLevelIncreased = true;
-        }else if (!gamepad2.dpad_up && wasLevelIncreased){
-            placeHeight++;
-            if (placeHeight == 7){
-                placeHeight = 0;
-            }
-            wasLevelIncreased = false;
-        }
-        if (gamepad2.dpad_down){
-            wasLevelDecreased = true;
-        }else if (!gamepad2.dpad_down && wasLevelDecreased){
-            placeHeight--;
-            if (placeHeight == -1){
-                placeHeight = 6;
-            }
-            wasLevelDecreased = false;
-        }
-        if (gamepad1.b){
-            robot.rightBack.setPower(0);
-            robot.leftFront.setPower(0);
-            robot.rightFront.setPower(0);
-            robot.leftBack.setPower(0);
-            if (placeHeight == 0){
-                lift.placeLevel(PlaceLevel.ONE);
-            }else if (placeHeight == 1){
-                lift.placeLevel(PlaceLevel.INSIDE);
-            }else if (placeHeight == 2){
-                lift.placeLevel(PlaceLevel.TWO);
-            }else if (placeHeight == 3){
-                lift.placeLevel(PlaceLevel.THREE);
-            }else if (placeHeight == 4){
-                lift.placeLevel(PlaceLevel.FOUR);
-            }else if(placeHeight == 5){
-                lift.placeLevel(PlaceLevel.FIVE);
-            }else if (placeHeight == 6){
-                lift.placeLevel(PlaceLevel.CAP);
-            }
-        }*/
-
-        //manual control of lift
-        if (gamepad2.y){
-            lift.frontLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            lift.backLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            lift.liftPower(-.8);
-//        }else if (gamepad2.x && lift.REVTouchBottom.getState()){
-        }else if (gamepad2.x && lift.REVTouchBottom.getState()){
-            lift.frontLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            lift.backLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            lift.liftPower(.8);
-        }else {
-            lift.liftPower(0);
-            lift.frontLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            lift.backLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
         //manual control of the arm

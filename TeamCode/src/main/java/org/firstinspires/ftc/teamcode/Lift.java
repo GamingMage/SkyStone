@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode;
-
+/*
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -16,7 +16,7 @@ public class Lift {
      * Assuming we start from the bottom every time. The only way to get down is to go all the way.
      * How to return enum from getLiftPosition
      *****************************************************/
-
+/*
     public DcMotor frontLift = null;
     public DcMotor backLift  = null;
 
@@ -180,3 +180,4 @@ public class Lift {
     }
 
 }
+*/

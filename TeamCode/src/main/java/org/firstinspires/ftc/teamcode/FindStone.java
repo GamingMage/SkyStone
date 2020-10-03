@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode;
-
+/*
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -94,7 +94,7 @@ public class FindStone {
             return StoneID.UNKNOWN;
         }
     }*/
-    public StoneID rightSkystoneTest() {
+    /*public StoneID rightSkystoneTest() {
         rfColorSensor.enableLed(true);
         rbColorSensor.enableLed(true);
         rfgreen = rfColorSensor.green();
@@ -147,3 +147,4 @@ public class FindStone {
         return rbColorSensor.blue();
     }
 }
+*/
