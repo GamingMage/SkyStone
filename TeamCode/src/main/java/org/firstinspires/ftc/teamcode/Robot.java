@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode;
-
+/*
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -33,7 +33,7 @@ public class Robot {
     public Robot(){
 
     }
-    /* Initialize standard Hardware interfaces */
+    // Initialize standard Hardware interfaces
     public void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
         hwMap = ahwMap;
@@ -67,7 +67,7 @@ public class Robot {
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         */
-    }
+    /*}
 
     private void resetAngle()
     {
@@ -179,7 +179,5 @@ public class Robot {
         //left is + degrees
         //right is - degrees
     }
-
-
-
 }
+*/

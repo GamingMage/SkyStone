@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode;
-
+/*
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -117,7 +117,7 @@ public class Placing {
         }
     }
 
-     */
+     *//*
     public void armDrive(double speed, int encoderDistance){
         armMotor.setTargetPosition(encoderDistance);
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -130,3 +130,4 @@ public class Placing {
         return armMotor.getCurrentPosition();
     }
 }
+*/

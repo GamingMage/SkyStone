@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode;
-
+/*
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -23,7 +23,7 @@ public class MoveLeft extends OpMode{
      * This program starts with the robot's intake facing the center
      *
      ***********************************/
-    @Override
+    /*@Override
     public void init() {
         msStuckDetectInit = 11500;
         msStuckDetectLoop = 25000;
@@ -54,3 +54,4 @@ public class MoveLeft extends OpMode{
         }
     }
 }
+*/

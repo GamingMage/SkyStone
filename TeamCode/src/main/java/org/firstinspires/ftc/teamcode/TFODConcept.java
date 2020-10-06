@@ -26,7 +26,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+/*
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -49,7 +49,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "Concept: TensorFlow Object Detection", group = "Concept")
+/*@TeleOp(name = "Concept: TensorFlow Object Detection", group = "Concept")
 @Disabled
 public class TFODConcept extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
@@ -68,20 +68,20 @@ public class TFODConcept extends LinearOpMode {
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
      */
-    private static final String VUFORIA_KEY =
+    /*private static final String VUFORIA_KEY =
             "Aex8eDT/////AAABmdQ/BZvawkaYv0xbWPxJoU0Mm3ctvBLTtBx0y27HBEybDEuoxVwpR+WhsEivmmm2t5b4QrYhtptHqIycfUiXZ8+BfXWIJ59oKVRGrudjwmbCSMisH/Y3x4p2nux/wNKTTYEvM58lWAtoyNyrWgrhoNEuWXNP0tuFKuko8760Yd3GhR2JdMTALRt6R5t8xl3Pj8qlmhM63r8FEzElBpKJ01ZMGebAur8Zk/OyCWQQnvlW/m473ME8BLzeEaIVQnPekAxrSMVOA9jVLuebV9fuqSejNbwvqcKkx2FilWFZN2MLEe+Fce/GBLLsdfyeMpunoWNdF75kMxM+6sX8SHuEhHZRQsxeWNuM50RPkFBUVS9h";
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
      */
-    private VuforiaLocalizer vuforia;
+    /*private VuforiaLocalizer vuforia;
 
     /**
      * {@link #tfod} is the variable we will use to store our instance of the TensorFlow Object
      * Detection engine.
      */
-    private TFObjectDetector tfod;
+    /*private TFObjectDetector tfod;
 
     @Override
     public void runOpMode() {
@@ -99,12 +99,12 @@ public class TFODConcept extends LinearOpMode {
          * Activate TensorFlow Object Detection before we wait for the start command.
          * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
          **/
-        if (tfod != null) {
+        /*if (tfod != null) {
             tfod.activate();
         }
 
         /** Wait for the game to begin */
-        telemetry.addData(">", "Press Play to start op mode");
+        /*telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
 
@@ -139,11 +139,11 @@ public class TFODConcept extends LinearOpMode {
     /**
      * Initialize the Vuforia localization engine.
      */
-    private void initVuforia() {
+    /*private void initVuforia() {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          */
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+        /*VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         parameters.cameraDirection = CameraDirection.BACK;
@@ -157,7 +157,7 @@ public class TFODConcept extends LinearOpMode {
     /**
      * Initialize the TensorFlow Object Detection engine.
      */
-    private void initTfod() {
+    /*private void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
@@ -166,3 +166,4 @@ public class TFODConcept extends LinearOpMode {
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
 }
+*/

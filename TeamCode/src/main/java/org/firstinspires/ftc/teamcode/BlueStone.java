@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode;
-
+/*
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -32,7 +32,7 @@ public class BlueStone extends OpMode {
      * This program starts with the robot's left side(left of the intake) facing the field
      *
      ***********************************/
-    @Override
+    /*@Override
     public void init() {
         msStuckDetectInit = 13500;
         msStuckDetectLoop = 11500;
@@ -188,3 +188,4 @@ public class BlueStone extends OpMode {
         }
     }
 }
+*/

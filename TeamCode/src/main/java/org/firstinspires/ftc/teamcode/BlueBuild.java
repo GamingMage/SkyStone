@@ -1,11 +1,11 @@
 package org.firstinspires.ftc.teamcode;
-
+/*
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-//@Disabled
+@Disabled
 @Autonomous(name="Blue: Build", group="Build")
 public class BlueBuild extends OpMode{
 
@@ -27,7 +27,7 @@ public class BlueBuild extends OpMode{
      * This program starts with the robot's intake facing the wall
      *
      ***********************************/
-    @Override
+    /*@Override
     public void init() {
         msStuckDetectInit = 11500;
         msStuckDetectLoop = 10000;
@@ -118,3 +118,4 @@ public class BlueBuild extends OpMode{
         }
     }
 }
+*/
